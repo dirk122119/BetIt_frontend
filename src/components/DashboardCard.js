@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { Card, CardActionArea, Box, CardContent, Typography, CardMedia } from '@mui/material';
-
+import Sparkline from './Sparkline';
 export default function CrryptoDashbordCard(props){
     return (
         <Card sx={{ display: "flex",height:"200px" }}>
             <CardActionArea sx={{ display: "flex" }}>
-                <Box sx={{ display: "flex", flexDirection: "column", width:"250px"}}>
+                <Box sx={{ display: "flex", flexDirection: "column", width:"40%"}}>
                     <CardContent>
                         <Typography component="h5" variant="h5">
                             {props.data.symbol}
@@ -17,8 +17,8 @@ export default function CrryptoDashbordCard(props){
                     </CardContent>
 
                 </Box>
-                <Box sx={{ display: "flex",flex: "1 0 auto", justifyContent:"flex-end" }}>
-                    {/* <SparkLine priceList={props.data.sparkline_in_7d}/> */}
+                <Box sx={{ display: "flex",width:"50%", justifyContent:"flex-end" }}>
+                    <Sparkline priceList={props.data.price_close}/>
                 </Box>
                 
             </CardActionArea>
