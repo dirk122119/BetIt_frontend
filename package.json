@@ -15,9 +15,12 @@
     "@mui/material": "^5.11.8",
     "@mui/styled-engine-sc": "^5.11.0",
     "@next/font": "13.1.6",
+    "apexcharts": "^3.37.0",
     "next": "13.1.6",
     "react": "18.2.0",
+    "react-apexcharts": "^1.4.0",
     "react-dom": "18.2.0",
-    "styled-components": "^5.3.6"
+    "styled-components": "^5.3.6",
+    "swr": "^2.0.3"
   }
 }
