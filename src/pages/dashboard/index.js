@@ -1,4 +1,4 @@
-import Layout from '@/components/Layout'
+import Layout from '@/components/layout'
 import useSWR from 'swr'
 import Head from 'next/head'
 import { Container, Grid, Box } from '@mui/material'
