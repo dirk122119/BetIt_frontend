@@ -7,7 +7,7 @@ import Card from '@/components/DashboardCard'
 export default function DashboardIndex({ Component, pageProps }) {
 
   const fetcher = (url) => fetch(url).then(r => r.json());
-  const { data, error, isLoading } = useSWR(`https://54.64.173.185/redis`, fetcher, {
+  const { data, error, isLoading } = useSWR(`https://www.betit.online/redis`, fetcher, {
     refreshInterval: 60000
   })
   if (error) return <div>failed to load</div>;
