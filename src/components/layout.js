@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Html, Head, Main, NextScript } from 'next/document'
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
@@ -16,15 +17,20 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import Tooltip from "@mui/material/Tooltip";
-import SpeedDial from '@mui/material/SpeedDial';
-import SpeedDialIcon from '@mui/material/SpeedDialIcon';
-import SpeedDialAction from '@mui/material/SpeedDialAction';
-import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
-import SaveIcon from '@mui/icons-material/Save';
-import PrintIcon from '@mui/icons-material/Print';
-import ShareIcon from '@mui/icons-material/Share';
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+import SpeedDial from "@mui/material/SpeedDial";
+import SpeedDialIcon from "@mui/material/SpeedDialIcon";
+import SpeedDialAction from "@mui/material/SpeedDialAction";
+import FileCopyIcon from "@mui/icons-material/FileCopyOutlined";
+import SaveIcon from "@mui/icons-material/Save";
+import PrintIcon from "@mui/icons-material/Print";
+import ShareIcon from "@mui/icons-material/Share";
+import Link from "next/link";
+import US from "../../public/usa-flag-svgrepo-com.svg"
+import TW from "../../public/taiwan-svgrepo-com.svg"
+import SvgIcon from "@mui/material/SvgIcon";
+import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
+import { Icon } from "@mui/material";
+
 
 const drawerWidth = 240;
 
@@ -93,10 +99,10 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 const actions = [
-  { icon: <FileCopyIcon />, name: 'Copy' },
-  { icon: <SaveIcon />, name: 'Save' },
-  { icon: <PrintIcon />, name: 'Print' },
-  { icon: <ShareIcon />, name: 'Share' },
+  { icon: <FileCopyIcon />, name: "Copy" },
+  { icon: <SaveIcon />, name: "Save" },
+  { icon: <PrintIcon />, name: "Print" },
+  { icon: <ShareIcon />, name: "Share" },
 ];
 export default function Layout({ children }) {
   const theme = useTheme();
@@ -110,78 +116,180 @@ export default function Layout({ children }) {
 
   return (
     <>
-    <Box sx={{ display: "flex" }}>
-      <CssBaseline />
-      <AppBar position="fixed" open={open}>
-        <Toolbar sx={{backgroundColor:"#242526"}}>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawer}
-            edge="start"
-            sx={{
-              marginRight: 5,
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h4" noWrap component="h4">
-            Bet It
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Drawer variant="permanent" open={open}>
-        <DrawerHeader />
-        <Divider />
-        <List>
-          <ListItem key="dashboard" disablePadding sx={{ display: "block" }}>
-            <Tooltip title="儀表板" placement="right-start">
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
-                  }}
-                >
-                  <DashboardIcon />
-                </ListItemIcon>
-                <ListItemText primary="儀表板" sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </Tooltip>
-          </ListItem>
-        </List>
-      </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <DrawerHeader />
-        <main>{children}</main>
+      <Box sx={{ display: "flex" }}>
+        <CssBaseline />
+        <AppBar position="fixed" open={open}>
+          <Toolbar sx={{ backgroundColor: "#242526" }}>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawer}
+              edge="start"
+              sx={{
+                marginRight: 5,
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Link href="/">
+              <Typography variant="h4" noWrap component="h4">
+                Bet It
+              </Typography>
+            </Link>
+          </Toolbar>
+        </AppBar>
+        <Drawer variant="permanent" open={open}>
+          <DrawerHeader />
+          <Divider />
+          <List>
+            <ListItem key="dashboard" disablePadding sx={{ display: "block" }}>
+              <Link href="/dashboard">
+                <Tooltip title="儀表板" placement="right-start">
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <DashboardIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="儀表板"
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </Tooltip>
+              </Link>
+            </ListItem>
+            
+            {/*  */}
+            <ListItem key="dashboard" disablePadding sx={{ display: "block" }}>
+              <Link href="/usStock">
+                <Tooltip title="美股" placement="right-start">
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <SvgIcon component={US} inheritViewBox />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="美股"
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </Tooltip>
+              </Link>
+            </ListItem>
+            {/*  */}
+            <ListItem key="dashboard" disablePadding sx={{ display: "block" }}>
+              <Link href="/twStock">
+                <Tooltip title="台股" placement="right-start">
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <SvgIcon component={TW} inheritViewBox />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="台股"
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </Tooltip>
+              </Link>
+            </ListItem>
+            {/*  */}
+            <ListItem key="dashboard" disablePadding sx={{ display: "block" }}>
+              <Link href="/crypto">
+                <Tooltip title="加密貨幣" placement="right-start">
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <CurrencyBitcoinIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="加密貨幣"
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </Tooltip>
+              </Link>
+            </ListItem>
+          </List>
+        </Drawer>
+        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+          <DrawerHeader />
+          <main>{children}</main>
+        </Box>
+        
       </Box>
-      <Box sx={{ height:"98vh", transform: 'translateZ(0px)', flexGrow: 1 }}>
-      <SpeedDial
-        ariaLabel="SpeedDial controlled open example"
-        sx={{ position: 'absolute', bottom: 16, right: 16,'& .MuiFab-primary': { backgroundColor: 'rgba(238,238,238,0.3)', color: 'blue' }}}
-        icon={<SpeedDialIcon />}
-        onClose={handleSpeedDialClose}
-        onOpen={handleSpeedDialOpen}
-        open={SpeedDialopen}
-      >
-        {actions.map((action) => (
-          <SpeedDialAction
-            key={action.name}
-            icon={action.icon}
-            tooltipTitle={action.name}
-            onClick={handleSpeedDialClose}
-          />
-        ))}
-      </SpeedDial>
-    </Box>
-    </Box>
+          <SpeedDial
+            ariaLabel="SpeedDial controlled open example"
+            sx={{
+              position: "fixed",
+              bottom: "16px",
+              right: "16px",
+              "& .MuiFab-primary": {
+                backgroundColor: "rgba(238,238,238,0.3)",
+                color: "blue",
+                "&:hover": { backgroundColor: "rgba(238,238,238,1)" },
+              },
+            
+            }}
+            icon={<SpeedDialIcon />}
+            onClose={handleSpeedDialClose}
+            onOpen={handleSpeedDialOpen}
+            open={SpeedDialopen}
+          >
+              <SpeedDialAction
+              sx={{marginBottom: "0px",backgroundColor: "rgba(238,238,238,0.3)"}}
+                key={"add a game"}
+                icon={<SpeedDialIcon />}
+                tooltipTitle={"start Bet"}
+                onClick={handleSpeedDialClose}
+                
+              />
+
+          </SpeedDial>
     </>
   );
 }
