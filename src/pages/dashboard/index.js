@@ -1,7 +1,7 @@
 import Layout from '@/components/layout'
 import useSWR from 'swr'
 import Head from 'next/head'
-import { Container, Grid, Box } from '@mui/material'
+import { Container, Grid, Box,Typography } from '@mui/material'
 import Card from '@/components/DashboardCard'
 
 export default function DashboardIndex({ Component, pageProps }) {
@@ -17,42 +17,53 @@ export default function DashboardIndex({ Component, pageProps }) {
     <>
       <Head>Dashboard</Head>
       <Box sx={{ width: "100%" }}>
-        <Grid container justifyContent="space-between" direction="row" spacing={{ xs: 2, md: 3}} columns={{ sm: 12, md: 12,lg:12,xl:12 }}>
-          <Grid item xs={11} sm={11} md={6} lg={4} xl={4} key={0}>
+        <Grid container justifyContent="space-between" spacing={{ xs: 2, md: 3}} columns={{ sm: 12, md: 12,lg:12,xl:12 }}>
+        <Grid item xs={12} sm={12} md={12} lg={12} xl={12} key={"us_title"}>
+            <Typography component="h4" variant="h4" sx={{color:"black",display: "flex",alignItems: "flex-end",paddingTop:"5px"}}>
+              美股
+            </Typography>
+          </Grid>
+          <Grid item xs={11} sm={11} md={6} lg={4} xl={4} key={"Dow Jones Industrial Average"}>
+            <Card data={data["Dow Jones Industrial Average"]}/>
+          </Grid>
+          <Grid item xs={11} sm={11} md={6} lg={4} xl={4} key={"S&P 500"}>
+            <Card data={data["S&P 500"]}/>
+          </Grid>
+          <Grid item xs={11} sm={11} md={6} lg={4} xl={4} key={"NASDAQ Composite"}>
+            <Card data={data["NASDAQ Composite"]}/>
+          </Grid>
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={12} key={"tw_title"}>
+            <Typography component="h4" variant="h4" sx={{color:"black",display: "flex",alignItems: "flex-end",paddingTop:"5px"}}>
+              台股
+            </Typography>
+          </Grid>
+          
+          <Grid item xs={11} sm={11} md={6} lg={4} xl={4} key={"tw_index"}>
+            <Card data={data["tw_index"]}/>
+          </Grid>
+          <Grid item xs={11} sm={11} md={6} lg={4} xl={4} key={"0050"}>
+            <Card data={data["0050"]}/>
+          </Grid>
+          <Grid item xs={11} sm={11} md={6} lg={4} xl={4} key={"0051"}>
+            <Card data={data["0051"]}/>
+          </Grid>
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={12} key={"Crypto_title"}>
+            <Typography component="h4" variant="h4" sx={{color:"black",display: "flex",alignItems: "flex-end",paddingTop:"5px"}}>
+              加密貨幣
+            </Typography>
+          </Grid>
+          <Grid item xs={11} sm={11} md={6} lg={4} xl={4} key={"BTC/USDT"}>
             <Card data={data["BTC/USDT"]}/>
           </Grid>
-          <Grid item xs={11} sm={11} md={6} lg={4} xl={4} key={1}>
+          <Grid item xs={11} sm={11} md={6} lg={4} xl={4} key={"ETH/USDT"}>
             <Card data={data["ETH/USDT"]}/>
           </Grid>
-          <Grid item xs={11} sm={11} md={6} lg={4} xl={4} key={2}>
+          <Grid item xs={11} sm={11} md={6} lg={4} xl={4} key={"BNB/USDT"}>
             <Card data={data["BNB/USDT"]}/>
           </Grid>
         </Grid>
         </Box>
 
-        <Box sx={{ width: "100%" }}>
-        <Grid container justifyContent="space-between" direction="row" spacing={{ xs: 2, md: 3}} columns={{ sm: 12, md: 12,lg:12,xl:12 }}>
-          <Grid item xs={11} sm={11} md={6} lg={4} xl={4} key={0}>
-            <Card data={data["Dow Jones Industrial Average"]}/>
-          </Grid>
-          <Grid item xs={11} sm={11} md={6} lg={4} xl={4} key={1}>
-            <Card data={data["S&P 500"]}/>
-          </Grid>
-          <Grid item xs={11} sm={11} md={6} lg={4} xl={4} key={2}>
-            <Card data={data["NASDAQ Composite"]}/>
-          </Grid>
-        </Grid>
-        </Box>
-        <Box sx={{ width: "100%" }}>
-        <Grid container justifyContent="space-between" direction="row" spacing={{ xs: 2, md: 3}} columns={{ sm: 12, md: 12,lg:12,xl:12 }}>
-          <Grid item xs={11} sm={11} md={6} lg={4} xl={6} key={0}>
-            <Card data={data["tw_index"]}/>
-          </Grid>
-          <Grid item xs={11} sm={11} md={6} lg={4} xl={6} key={1}>
-            <Card data={data["0050"]}/>
-          </Grid>
-        </Grid>
-        </Box>
     </>
   
   )

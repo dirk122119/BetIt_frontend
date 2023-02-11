@@ -8,7 +8,7 @@ export default function Sparkline(props){
     let options = {
         chart: {
             type: "area",
-            width: 300,
+            width: "100%",
             height: 130,
             sparkline: {
                 enabled: true

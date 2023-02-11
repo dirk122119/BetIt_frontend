@@ -16,7 +16,13 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import Tooltip from "@mui/material/Tooltip";
-
+import SpeedDial from '@mui/material/SpeedDial';
+import SpeedDialIcon from '@mui/material/SpeedDialIcon';
+import SpeedDialAction from '@mui/material/SpeedDialAction';
+import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
+import SaveIcon from '@mui/icons-material/Save';
+import PrintIcon from '@mui/icons-material/Print';
+import ShareIcon from '@mui/icons-material/Share';
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 
@@ -86,11 +92,18 @@ const Drawer = styled(MuiDrawer, {
     "& .MuiDrawer-paper": closedMixin(theme),
   }),
 }));
-
+const actions = [
+  { icon: <FileCopyIcon />, name: 'Copy' },
+  { icon: <SaveIcon />, name: 'Save' },
+  { icon: <PrintIcon />, name: 'Print' },
+  { icon: <ShareIcon />, name: 'Share' },
+];
 export default function Layout({ children }) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-
+  const [SpeedDialopen, setSpeedDialOpen] = React.useState(false);
+  const handleSpeedDialOpen = () => setSpeedDialOpen(true);
+  const handleSpeedDialClose = () => setSpeedDialOpen(false);
   const handleDrawer = () => {
     setOpen(!open);
   };
@@ -100,7 +113,7 @@ export default function Layout({ children }) {
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
-        <Toolbar>
+        <Toolbar sx={{backgroundColor:"#242526"}}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -112,8 +125,8 @@ export default function Layout({ children }) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Mini variant drawer
+          <Typography variant="h4" noWrap component="h4">
+            Bet It
           </Typography>
         </Toolbar>
       </AppBar>
@@ -149,6 +162,25 @@ export default function Layout({ children }) {
         <DrawerHeader />
         <main>{children}</main>
       </Box>
+      <Box sx={{ height:"98vh", transform: 'translateZ(0px)', flexGrow: 1 }}>
+      <SpeedDial
+        ariaLabel="SpeedDial controlled open example"
+        sx={{ position: 'absolute', bottom: 16, right: 16,'& .MuiFab-primary': { backgroundColor: 'rgba(238,238,238,0.3)', color: 'blue' }}}
+        icon={<SpeedDialIcon />}
+        onClose={handleSpeedDialClose}
+        onOpen={handleSpeedDialOpen}
+        open={SpeedDialopen}
+      >
+        {actions.map((action) => (
+          <SpeedDialAction
+            key={action.name}
+            icon={action.icon}
+            tooltipTitle={action.name}
+            onClick={handleSpeedDialClose}
+          />
+        ))}
+      </SpeedDial>
+    </Box>
     </Box>
     </>
   );

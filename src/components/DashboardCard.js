@@ -17,7 +17,7 @@ export default function CrryptoDashbordCard(props){
                     </CardContent>
 
                 </Box>
-                <Box sx={{ display: "flex",width:"50%", justifyContent:"flex-end" }}>
+                <Box sx={{ display: "flex",width:"60%", justifyContent:"flex-end" }}>
                     <Sparkline priceList={props.data.price_close}/>
                 </Box>
                 
