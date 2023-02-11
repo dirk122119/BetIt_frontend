@@ -1,5 +1,5 @@
 import Container from '@mui/material/Container';
-import styles from '@/components/crypto/tickerTape.module.css'
+import styles from '@/components/crypto/TickerTape.module.css'
 import useSWR from 'swr'
 
 export default function TickerTape() {
