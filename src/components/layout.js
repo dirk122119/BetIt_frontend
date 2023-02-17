@@ -17,20 +17,15 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import Tooltip from "@mui/material/Tooltip";
-import SpeedDial from "@mui/material/SpeedDial";
-import SpeedDialIcon from "@mui/material/SpeedDialIcon";
-import SpeedDialAction from "@mui/material/SpeedDialAction";
-import FileCopyIcon from "@mui/icons-material/FileCopyOutlined";
-import SaveIcon from "@mui/icons-material/Save";
-import PrintIcon from "@mui/icons-material/Print";
-import ShareIcon from "@mui/icons-material/Share";
+
 import Link from "next/link";
 import US from "../../public/usa-flag-svgrepo-com.svg"
 import TW from "../../public/taiwan-svgrepo-com.svg"
 import SvgIcon from "@mui/material/SvgIcon";
 import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
 import { Icon } from "@mui/material";
-
+import ButtonSpeedDial from "@/components/ButtonSpeedDial"
+import PreviewIcon from '@mui/icons-material/Preview';
 
 const drawerWidth = 240;
 
@@ -98,18 +93,11 @@ const Drawer = styled(MuiDrawer, {
     "& .MuiDrawer-paper": closedMixin(theme),
   }),
 }));
-const actions = [
-  { icon: <FileCopyIcon />, name: "Copy" },
-  { icon: <SaveIcon />, name: "Save" },
-  { icon: <PrintIcon />, name: "Print" },
-  { icon: <ShareIcon />, name: "Share" },
-];
+
 export default function Layout({ children }) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [SpeedDialopen, setSpeedDialOpen] = React.useState(false);
-  const handleSpeedDialOpen = () => setSpeedDialOpen(true);
-  const handleSpeedDialClose = () => setSpeedDialOpen(false);
+  
   const handleDrawer = () => {
     setOpen(!open);
   };
@@ -171,7 +159,7 @@ export default function Layout({ children }) {
             </ListItem>
             
             {/*  */}
-            <ListItem key="dashboard" disablePadding sx={{ display: "block" }}>
+            <ListItem key="us" disablePadding sx={{ display: "block" }}>
               <Link href="/usStock">
                 <Tooltip title="美股" placement="right-start">
                   <ListItemButton
@@ -199,7 +187,7 @@ export default function Layout({ children }) {
               </Link>
             </ListItem>
             {/*  */}
-            <ListItem key="dashboard" disablePadding sx={{ display: "block" }}>
+            <ListItem key="tw" disablePadding sx={{ display: "block" }}>
               <Link href="/twStock">
                 <Tooltip title="台股" placement="right-start">
                   <ListItemButton
@@ -227,7 +215,7 @@ export default function Layout({ children }) {
               </Link>
             </ListItem>
             {/*  */}
-            <ListItem key="dashboard" disablePadding sx={{ display: "block" }}>
+            <ListItem key="crypto" disablePadding sx={{ display: "block" }}>
               <Link href="/crypto">
                 <Tooltip title="加密貨幣" placement="right-start">
                   <ListItemButton
@@ -254,6 +242,34 @@ export default function Layout({ children }) {
                 </Tooltip>
               </Link>
             </ListItem>
+            {/* 看賭局 */}
+            <ListItem key="game" disablePadding sx={{ display: "block" }}>
+              <Link href="/game">
+                <Tooltip title="已經有的賭約" placement="right-start">
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <PreviewIcon/>
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="打賭"
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </Tooltip>
+              </Link>
+            </ListItem>
           </List>
         </Drawer>
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
@@ -262,34 +278,7 @@ export default function Layout({ children }) {
         </Box>
         
       </Box>
-          <SpeedDial
-            ariaLabel="SpeedDial controlled open example"
-            sx={{
-              position: "fixed",
-              bottom: "16px",
-              right: "16px",
-              "& .MuiFab-primary": {
-                backgroundColor: "rgba(238,238,238,0.3)",
-                color: "blue",
-                "&:hover": { backgroundColor: "rgba(238,238,238,1)" },
-              },
-            
-            }}
-            icon={<SpeedDialIcon />}
-            onClose={handleSpeedDialClose}
-            onOpen={handleSpeedDialOpen}
-            open={SpeedDialopen}
-          >
-              <SpeedDialAction
-              sx={{marginBottom: "0px",backgroundColor: "rgba(238,238,238,0.3)"}}
-                key={"add a game"}
-                icon={<SpeedDialIcon />}
-                tooltipTitle={"start Bet"}
-                onClick={handleSpeedDialClose}
-                
-              />
-
-          </SpeedDial>
+      <ButtonSpeedDial/>
     </>
   );
 }
