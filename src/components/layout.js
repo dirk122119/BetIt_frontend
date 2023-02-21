@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Html, Head, Main, NextScript } from 'next/document'
+import { Html, Head, Main, NextScript } from "next/document";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
@@ -17,16 +17,19 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import Tooltip from "@mui/material/Tooltip";
-
+import Button from "@mui/material/Button";
 import Link from "next/link";
-import US from "../../public/usa-flag-svgrepo-com.svg"
-import TW from "../../public/taiwan-svgrepo-com.svg"
+import US from "../../public/usa-flag-svgrepo-com.svg";
+import TW from "../../public/taiwan-svgrepo-com.svg";
 import SvgIcon from "@mui/material/SvgIcon";
-import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
+import CurrencyBitcoinIcon from "@mui/icons-material/CurrencyBitcoin";
 import { Icon } from "@mui/material";
-import ButtonSpeedDial from "@/components/ButtonSpeedDial"
-import PreviewIcon from '@mui/icons-material/Preview';
-
+import ButtonSpeedDial from "@/components/ButtonSpeedDial";
+import PreviewIcon from "@mui/icons-material/Preview";
+import ButtonGroup from "@mui/material/ButtonGroup";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import LoginDialog from "@/components/LoginDialog";
+import SignupDialog from "@/components/SignupDialog";
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -97,16 +100,40 @@ const Drawer = styled(MuiDrawer, {
 export default function Layout({ children }) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  
-  const handleDrawer = () => {
-    setOpen(!open);
-  };
+  const [auth, setAuth] = React.useState(null);
+  const [LoginDialogsClickOpen, setLoginDialogsClickOpen] =
+    React.useState(false);
+  const [SignupDialogsClickOpen, setSignupDialogsClickOpen] =
+    React.useState(false);
+
+
+  const handleLoginDialogsClickClose = () => setLoginDialogsClickOpen(false);
+  const handleLoginDialogsClickOpen = () => setLoginDialogsClickOpen(true);
+  const handleSignupDialogsClickClose = () => setSignupDialogsClickOpen(false);
+  const handleSignupDialogsClickOpen = () => setSignupDialogsClickOpen(true);
+  const handleDrawer = () => setOpen(!open);
+  const handleAuth = (account) => setAuth(account);
+
+//   let url = "https://www.betit.online/checkjwt";
+//   const myHeaders = new Headers();
+//   myHeaders.append("content-type", "application/json");
+
+//   var requestOptions = {
+//     method: "get",
+//     headers: myHeaders,
+//     credentials: "include",
+//   };
+
+//  fetch(url,requestOptions).then((res) => res.json())
+//     .then((res) => {
+//       console.log(res)
+//     });
 
   return (
     <>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
-        <AppBar position="fixed" open={open}>
+        <AppBar position="fixed" open={open} component="nav">
           <Toolbar sx={{ backgroundColor: "#242526" }}>
             <IconButton
               color="inherit"
@@ -119,11 +146,44 @@ export default function Layout({ children }) {
             >
               <MenuIcon />
             </IconButton>
-            <Link href="/">
-              <Typography variant="h4" noWrap component="h4">
-                Bet It
-              </Typography>
-            </Link>
+
+            <Typography variant="h4" noWrap component="h4" sx={{ flexGrow: 1 }}>
+              <Link href="/">Bet It</Link>
+            </Typography>
+            {auth && (
+              <div>
+                <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={() => {
+                    alert("click");
+                  }}
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>
+              </div>
+            )}
+            {!auth && (
+              <Box>
+                <Button
+                  color="inherit"
+                  onClick={handleLoginDialogsClickOpen}
+                  sx={{ textTransform: "none" }}
+                >
+                  Login
+                </Button>
+                <Button
+                  color="inherit"
+                  sx={{ textTransform: "none" }}
+                  onClick={handleSignupDialogsClickOpen}
+                >
+                  Sign up
+                </Button>
+              </Box>
+            )}
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
@@ -157,7 +217,7 @@ export default function Layout({ children }) {
                 </Tooltip>
               </Link>
             </ListItem>
-            
+
             {/*  */}
             <ListItem key="us" disablePadding sx={{ display: "block" }}>
               <Link href="/usStock">
@@ -260,7 +320,7 @@ export default function Layout({ children }) {
                         justifyContent: "center",
                       }}
                     >
-                      <PreviewIcon/>
+                      <PreviewIcon />
                     </ListItemIcon>
                     <ListItemText
                       primary="打賭"
@@ -276,9 +336,17 @@ export default function Layout({ children }) {
           <DrawerHeader />
           <main>{children}</main>
         </Box>
-        
       </Box>
-      <ButtonSpeedDial/>
+      <ButtonSpeedDial />
+      <LoginDialog
+        open={LoginDialogsClickOpen}
+        clickClose={handleLoginDialogsClickClose}
+        login={handleAuth}
+      />
+      <SignupDialog
+        open={SignupDialogsClickOpen}
+        clickClose={handleSignupDialogsClickClose}
+      />
     </>
   );
 }

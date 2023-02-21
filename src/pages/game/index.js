@@ -5,7 +5,7 @@ import RoomCard from "@/components/game/RoomCard";
 export default function CryptoIndex() {
   const fetcher = (url) => fetch(url).then((r) => r.json());
   const { data, error, isLoading } = useSWR(
-    "http://127.0.0.1:8000/get_game/",
+    "https://www.betit.online/get_game/",
     fetcher,
     {
       refreshInterval: 60000,

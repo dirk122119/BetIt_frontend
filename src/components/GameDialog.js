@@ -66,7 +66,7 @@ BootstrapDialogTitle.propTypes = {
 export default function GameDialog(props) {
   const [market, setMarket] = React.useState("us_stock");
   const [direct, setDirect] = React.useState("up");
-  const [symbol, setSymbol] = React.useState(null);
+  const [symbol, setSymbol] = React.useState("");
   const [dataUrl, setDataUrl] = React.useState(
     "https://www.betit.online/us_stock/get_us_all_symbol"
   );
@@ -109,7 +109,6 @@ export default function GameDialog(props) {
           props.clickClose();
   }
   const handleFormSubmit = () => {
-    console.log(market, symbol, date, target, direct);
     // let url="https://betit.online/create_game/"
     let url = "http://127.0.0.1:8000/create_game/";
     fetch(url, {
@@ -182,6 +181,7 @@ export default function GameDialog(props) {
               <Grid item xs={6}>
                 <Autocomplete
                   disablePortal
+                  
                   id="combo-box-demo"
                   options={data["symbol"]}
                   getOptionLabel={(option) => option.symbol}
