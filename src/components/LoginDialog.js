@@ -95,7 +95,7 @@ export default function LoginDialog(props) {
     if (password !== "") {
       setTextPassword(true);
     }
-    let url = "https://www.betit.online/login/";
+    let url = "https://www.betit.online/login";
     const myHeaders = new Headers();
     myHeaders.append("content-type", "application/json");
     var requestOptions = {
