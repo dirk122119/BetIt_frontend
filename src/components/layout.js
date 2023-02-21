@@ -114,20 +114,20 @@ export default function Layout({ children }) {
   const handleDrawer = () => setOpen(!open);
   const handleAuth = (account) => setAuth(account);
 
-//   let url = "https://www.betit.online/checkjwt";
-//   const myHeaders = new Headers();
-//   myHeaders.append("content-type", "application/json");
+  let url = "https://www.betit.online/checkjwt";
+  const myHeaders = new Headers();
+  myHeaders.append("content-type", "application/json");
 
-//   var requestOptions = {
-//     method: "get",
-//     headers: myHeaders,
-//     credentials: "include",
-//   };
+  var requestOptions = {
+    method: "get",
+    headers: myHeaders,
+    credentials: "include",
+  };
 
-//  fetch(url,requestOptions).then((res) => res.json())
-//     .then((res) => {
-//       console.log(res)
-//     });
+ fetch(url,requestOptions).then((res) => res.json())
+    .then((res) => {
+      console.log(res)
+    });
 
   return (
     <>
