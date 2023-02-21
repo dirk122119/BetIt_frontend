@@ -117,7 +117,7 @@ export default function Layout({ children }) {
   let url = "https://www.betit.online/checkjwt";
 
   var requestOptions = {
-    method: "get",
+    method: "GET",
     credentials: 'include',
   };
 
