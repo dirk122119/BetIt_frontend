@@ -115,13 +115,10 @@ export default function Layout({ children }) {
   const handleAuth = (account) => setAuth(account);
 
   let url = "https://www.betit.online/checkjwt";
-  const myHeaders = new Headers();
-  myHeaders.append("content-type", "application/json");
 
   var requestOptions = {
     method: "get",
-    headers: myHeaders,
-    credentials: "include",
+    credentials: 'include',
   };
 
  fetch(url,requestOptions).then((res) => res.json())
