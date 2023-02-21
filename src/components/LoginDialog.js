@@ -105,8 +105,6 @@ export default function LoginDialog(props) {
         email:account,
         password:password
       }),
-      credentials: 'include',
-      withCredentials: true
     };
     fetch(url,requestOptions)
       .then((response) => response.json())
