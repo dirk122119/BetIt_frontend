@@ -121,6 +121,7 @@ export default function GameDialog(props) {
         date: date,
         target: target,
         direction: direct,
+        creater:props.user
       }),
       method: "POST",
       mode:"cors"
