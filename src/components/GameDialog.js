@@ -109,8 +109,8 @@ export default function GameDialog(props) {
           props.clickClose();
   }
   const handleFormSubmit = () => {
-    // let url="https://betit.online/create_game/"
-    let url = "http://127.0.0.1:8000/create_game/";
+    let url="https://betit.online/create_game/"
+    
     fetch(url, {
       headers: new Headers({
         "Content-Type": "application/json",

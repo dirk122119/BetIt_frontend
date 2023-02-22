@@ -116,28 +116,28 @@ export default function Layout({ children }) {
   const handleDrawer = () => setOpen(!open);
   const handleAuth = (account) => setAuth(account);
 
-  React.useEffect(() => {
-    // 从 Cookie 中获取名为 fastJWT 的 Cookie 值
-    const cookies = document.cookie.split('; ');
-    console.log("cookie")
-    console.log(cookies)
-    console.log(document.cookie)
-  }, []);
+//   React.useEffect(() => {
+//     // 从 Cookie 中获取名为 fastJWT 的 Cookie 值
+//     const cookies = document.cookie.split('; ');
+//     console.log("cookie")
+//     console.log(cookies)
+//     console.log(document.cookie)
+//   }, []);
 
-  const myCookie = cookies.get('fastJwt');
-  console.log("myCookie")
-  console.log(myCookie)
-  let url = "https://www.betit.online/checkjwt";
+//   const myCookie = cookies.get('fastJwt');
+//   console.log("myCookie")
+//   console.log(myCookie)
+//   let url = "https://www.betit.online/checkjwt";
 
-  var requestOptions = {
-    method: "GET",
-    credentials: 'include',
-  };
+//   var requestOptions = {
+//     method: "GET",
+//     credentials: 'include',
+//   };
 
- fetch(url,requestOptions).then((res) => res.json())
-    .then((res) => {
-      console.log(res)
-    });
+//  fetch(url,requestOptions).then((res) => res.json())
+//     .then((res) => {
+//       console.log(res)
+//     });
 
   return (
     <>
