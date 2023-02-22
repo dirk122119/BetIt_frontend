@@ -110,8 +110,7 @@ export default function LoginDialog(props) {
       .then((response) => response.json())
       .catch((error) => console.error("Error:", error))
       .then((response) => {
-        console.log(response["data"]["account"]);
-        props.login(response["data"]["account"])
+        props.login(response["data"]["id"])
         setAccount("");
         setPassword("");
         setTextAccount(true);
