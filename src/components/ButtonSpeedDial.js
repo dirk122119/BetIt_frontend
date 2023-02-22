@@ -4,14 +4,21 @@ import SpeedDialIcon from "@mui/material/SpeedDialIcon";
 import SpeedDialAction from "@mui/material/SpeedDialAction";
 import GameDialog from "@/components/GameDialog"
 
-export default function ButtonSpeedDials(){
+export default function ButtonSpeedDials(props){
     const [SpeedDialopen, setSpeedDialOpen] = React.useState(false);
     const handleSpeedDialOpen = () => setSpeedDialOpen(true);
     const handleSpeedDialClose = () => setSpeedDialOpen(false);
 
     const [GameDialogsClickOpen, setGameDialogsClickOpen] = React.useState(false);
     const handleGameDialogsClickClose = () => setGameDialogsClickOpen(false);
-    const handleGameDialogsClickOpen = () => setGameDialogsClickOpen(true);
+    const handleGameDialogsClickOpen = () => {
+      if(props.user!=null){
+        setGameDialogsClickOpen(true);
+      }
+      else{
+        props.login()
+      }
+    }
     return(
         <>
         <SpeedDial

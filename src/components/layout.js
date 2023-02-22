@@ -348,7 +348,7 @@ export default function Layout({ children }) {
           <main>{children}</main>
         </Box>
       </Box>
-      <ButtonSpeedDial />
+      <ButtonSpeedDial user={auth} login={handleLoginDialogsClickOpen}/>
       <LoginDialog
         open={LoginDialogsClickOpen}
         clickClose={handleLoginDialogsClickClose}
