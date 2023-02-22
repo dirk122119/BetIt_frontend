@@ -174,6 +174,7 @@ export default function Layout({ children }) {
                 >
                   <AccountCircle />
                 </IconButton>
+                {auth}
               </div>
             )}
             {!auth && (
