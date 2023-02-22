@@ -30,6 +30,8 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import LoginDialog from "@/components/LoginDialog";
 import SignupDialog from "@/components/SignupDialog";
+import cookies from 'js-cookie';
+
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -122,6 +124,9 @@ export default function Layout({ children }) {
     console.log(document.cookie)
   }, []);
 
+  const myCookie = cookies.get('fastJwt');
+  console.log("myCookie")
+  console.log(myCookie)
   let url = "https://www.betit.online/checkjwt";
 
   var requestOptions = {
