@@ -119,6 +119,7 @@ export default function Layout({ children }) {
     const cookies = document.cookie.split('; ');
     console.log("cookie")
     console.log(cookies)
+    console.log(document.cookie)
   }, []);
 
   let url = "https://www.betit.online/checkjwt";
