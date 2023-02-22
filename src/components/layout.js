@@ -117,12 +117,7 @@ export default function Layout({ children }) {
   React.useEffect(() => {
     // 从 Cookie 中获取名为 fastJWT 的 Cookie 值
     const cookies = document.cookie.split('; ');
-    for (const cookie of cookies) {
-      const [name, value] = cookie.split('=');
-      if (name === 'fastJWT') {
-        alert(fastJWT)
-      }
-    }
+    console.log(document.cookie)
   }, []);
 
   let url = "https://www.betit.online/checkjwt";
