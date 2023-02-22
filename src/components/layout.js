@@ -173,6 +173,8 @@ export default function Layout({ children }) {
                   aria-haspopup="true"
                   onClick={() => {
                     alert("click");
+                    const fetchToken = Cookies.get('fastJwt')
+                    alert(fetchToken)
                   }}
                   color="inherit"
                 >
