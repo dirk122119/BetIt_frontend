@@ -14,7 +14,7 @@ import * as React from "react";
 export default function DashboardIndex({ Component, pageProps }) {
   const fetcher = (url) => fetch(url).then((r) => r.json());
   const { data, error, isLoading } = useSWR(
-    `https://www.betit.online/redis`,
+    `https://www.betit.online/redis_dashboard`,
     fetcher,
     {
       refreshInterval: 60000,

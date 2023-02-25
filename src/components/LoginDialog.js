@@ -98,7 +98,7 @@ export default function LoginDialog(props) {
     let url = "https://www.betit.online/login";
     const myHeaders = new Headers();
     myHeaders.append("content-type", "application/json");
-    var requestOptions = {
+    let requestOptions = {
       method: "PUT",
       headers: myHeaders,
       body: JSON.stringify({
@@ -111,6 +111,7 @@ export default function LoginDialog(props) {
       .catch((error) => console.error("Error:", error))
       .then((response) => {
         props.login(response["data"]["account"])
+        localStorage.setItem('betitJwt', response["data"]["token"]);
         setAccount("");
         setPassword("");
         setTextAccount(true);

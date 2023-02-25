@@ -12,7 +12,7 @@ export default function CryptoIndex() {
             <div>
             <TwDataTable/>
             </div>
-            
+
         </div>
     )
 }

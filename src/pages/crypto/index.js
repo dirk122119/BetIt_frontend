@@ -2,6 +2,7 @@ import Head from 'next/head'
 import useSWR from 'swr'
 import TickerTape from "@/components/crypto/TickerTape"
 import DataTable from "@/components/crypto/Datable"
+import CryptoDataTable from "@/components/crypto/CryptoDataTable"
 export default function CryptoIndex() {
     return (
         <div>
@@ -13,9 +14,8 @@ export default function CryptoIndex() {
             </div>
             <br/>
             <div>
-            <DataTable/>
+            <CryptoDataTable/>
             </div>
-            
         </div>
     )
 }

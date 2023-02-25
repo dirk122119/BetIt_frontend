@@ -43,8 +43,9 @@ export default function DashboardIndex({ Component, pageProps }) {
   console.log(data);
   return (
     <>
-      <Head>Dashboard</Head>
-      <Box sx={{ width: "100%" }}>
+      <Head>homepage</Head>
+      <h1>Welcome Bet It</h1>
+      {/* <Box sx={{ width: "100%" }}>
         <Grid
           container
           justifyContent="space-between"
@@ -146,7 +147,7 @@ export default function DashboardIndex({ Component, pageProps }) {
             <Card data={data["BNB/USDT"]} />
           </Grid>
         </Grid>
-      </Box>
+      </Box> */}
     </>
   );
 }

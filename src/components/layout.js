@@ -31,7 +31,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import LoginDialog from "@/components/LoginDialog";
 import SignupDialog from "@/components/SignupDialog";
 import cookie from "cookie";
-import Cookies from 'js-cookie'
+import Cookies from "js-cookie";
 
 const drawerWidth = 240;
 
@@ -104,6 +104,7 @@ export default function Layout({ children }) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [auth, setAuth] = React.useState(null);
+  const [email, setEmail] = React.useState(null);
   const [LoginDialogsClickOpen, setLoginDialogsClickOpen] =
     React.useState(false);
   const [SignupDialogsClickOpen, setSignupDialogsClickOpen] =
@@ -116,32 +117,28 @@ export default function Layout({ children }) {
   const handleDrawer = () => setOpen(!open);
   const handleAuth = (account) => setAuth(account);
 
-  React.useEffect(() => {
-    const fetchToken = Cookies.get('fastJwt')
-    alert(fetchToken)
-  }, []);
-  //   React.useEffect(() => {
-  //     // 从 Cookie 中获取名为 fastJWT 的 Cookie 值
-  //     const cookies = document.cookie.split('; ');
-  //     console.log("cookie")
-  //     console.log(cookies)
-  //     console.log(document.cookie)
-  //   }, []);
-
-  //   const myCookie = cookies.get('fastJwt');
-  //   console.log("myCookie")
-  //   console.log(myCookie)
-  //   let url = "https://www.betit.online/checkjwt";
-
-  //   var requestOptions = {
-  //     method: "GET",
-  //     credentials: 'include',
-  //   };
-
-  //  fetch(url,requestOptions).then((res) => res.json())
-  //     .then((res) => {
-  //       console.log(res)
-  //     });
+  if (typeof window !== "undefined") {
+    const jwt = localStorage.getItem("betitJwt");
+    if (jwt) {
+      let token = "Bearer " + jwt;
+      const myHeaders = new Headers();
+      myHeaders.append("Authorization", token);
+      let requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+      };
+      let url = "https://www.betit.online/checkjwt";
+      fetch(url, requestOptions)
+        .then((response) => response.json())
+        .then((response) => {
+          setAuth(response["data"]["account"]);
+          setEmail(response["data"]["email"]);
+        })
+        .catch((error) => {
+          console.error(`Fetch error: ${error}`);
+        });
+    }
+  }
 
   return (
     <>
@@ -173,8 +170,8 @@ export default function Layout({ children }) {
                   aria-haspopup="true"
                   onClick={() => {
                     alert("click");
-                    const fetchToken = Cookies.get('fastJwt')
-                    alert(fetchToken)
+                    const fetchToken = Cookies.get("fastJwt");
+                    alert(fetchToken);
                   }}
                   color="inherit"
                 >

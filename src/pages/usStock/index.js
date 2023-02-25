@@ -5,7 +5,7 @@ export default function CryptoIndex() {
     return (
         <div>
             <Head>
-                <title>TW</title>
+                <title>US</title>
             </Head>
 
             <br/>
