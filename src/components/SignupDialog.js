@@ -130,16 +130,26 @@ export default function SignupDialog(props) {
         method: "POST",
       })
         .then((response) => response.json())
-        .catch((error) => console.error("Error:", error))
+        .catch((error) => {
+          console.log(error)
+          switch (error.status) {
+            case 400:
+              console.log(error.response['data']["message"], error.status);
+              break;
+            case 500:
+              console.log(error.response['data']["message"], error.status);
+              break;
+          }
+        })
         .then((response) => {
-          console.log(response);
+          setMessage(response['data']['message'])
          
             setAccount(null);
             setEmail(null);
             setPassword(null);
             setCheckPassword(null);
             setMessage("");
-            props.clickClose();
+            // props.clickClose();
           
         });
     }

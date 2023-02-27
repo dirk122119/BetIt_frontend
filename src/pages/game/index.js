@@ -28,7 +28,7 @@ export default function CryptoIndex() {
       {data["data"].map((game,index) => {
         return (
           <Grid key={index} item xs={6} md={3}>
-            <RoomCard  market={game["market"]} symbol={game["symbol"]} date={game["date"]} price={game["price"]} direct={game["direct"]} />
+            <RoomCard  market={game["market"]} symbol={game["symbol"]} date={game["date"]} price={game["price"]} direct={game["direct"]} creater={game["creater"]} />
           </Grid>
         );
       })}
