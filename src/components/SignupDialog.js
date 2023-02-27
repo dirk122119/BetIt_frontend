@@ -129,28 +129,37 @@ export default function SignupDialog(props) {
         }),
         method: "POST",
       })
-        .then((response) => response.json())
+        .then(async (response) => {
+          if (!response.ok) {
+            let data = await response.json();
+            let err = new Error("HTTP status code: " + response.status);
+            err.response = data;
+            err.status = response.status;
+            throw err;
+          }
+          return response.json();
+        }).then((response) => {
+          setMessage("註冊成功");
+
+          setAccount(null);
+          setEmail(null);
+          setPassword(null);
+          setCheckPassword(null);
+          setMessage("");
+          // props.clickClose();
+        })
         .catch((error) => {
-          console.log(error)
+          console.log(error);
           switch (error.status) {
             case 400:
-              console.log(error.response['data']["message"], error.status);
+              console.log(error.response['data']['message'], error.status);
+              setMessage(error.response['data']["message"])
               break;
             case 500:
-              console.log(error.response['data']["message"], error.status);
+              console.log(error.response['data']['message'], error.status);
+              setMessage(error.response["data"]["message"])
               break;
           }
-        })
-        .then((response) => {
-          setMessage(response['data']['message'])
-         
-            setAccount(null);
-            setEmail(null);
-            setPassword(null);
-            setCheckPassword(null);
-            setMessage("");
-            // props.clickClose();
-          
         });
     }
   };
