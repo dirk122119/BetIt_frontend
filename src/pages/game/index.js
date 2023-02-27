@@ -8,7 +8,7 @@ export default function CryptoIndex() {
     "https://www.betit.online/get_game/",
     fetcher,
     {
-      refreshInterval: 60000,
+      refreshInterval: 1000,
     }
   );
   if(!data){

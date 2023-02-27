@@ -72,7 +72,7 @@ export default function GameDialog(props) {
   );
   const [date, setDate] = React.useState(null);
   const [target, setTarget] = React.useState(null);
-
+  const [priceLabel,setPriceLabel] = React.useState(null);
   const fetcher = (url) => fetch(url).then((r) => r.json());
   const { data, error, isLoading } = useSWR(dataUrl, fetcher);
   if (!data) {
@@ -82,12 +82,15 @@ export default function GameDialog(props) {
     setMarket(event.target.value);
     if (event.target.value === "us_stock") {
       setDataUrl("https://www.betit.online/us_stock/get_us_all_symbol");
+      setPriceLabel("USD")
     }
     if (event.target.value === "tw_stock") {
       setDataUrl("https://www.betit.online/tw_stock/get_us_all_symbol");
+      setPriceLabel("TWD")
     }
     if (event.target.value === "crypto") {
       setDataUrl("https://www.betit.online/crypto/top250_market_symbol");
+      setPriceLabel("USD")
     }
   };
   const handleDirectChange = (event) => {
@@ -121,7 +124,7 @@ export default function GameDialog(props) {
         date: date,
         target: target,
         direction: direct,
-        creater:props.user
+        createrEmail:props.email
       }),
       method: "POST",
       mode:"cors"
@@ -129,14 +132,14 @@ export default function GameDialog(props) {
       .then((response) => response.json())
       .catch((error) => console.error("Error:", error))
       .then((response) => {
+        props.clickClose();
         console.log(response)
-        if(response["message"]==="ok"){
+        if(response["message"]==="create finish"){
           setMarket("")
           setDirect("")
           setSymbol("")
           setDate(null)
           setTarget("")
-          props.clickClose();
         }
       });
       
@@ -214,7 +217,7 @@ export default function GameDialog(props) {
                   <InputLabel htmlFor="component-outlined">目標價</InputLabel>
                   <OutlinedInput
                     endAdornment={
-                      <InputAdornment position="end">USD</InputAdornment>
+                      <InputAdornment position="end">{priceLabel}</InputAdornment>
                     }
                     label="目標價"
                     onChange={handleTarget}

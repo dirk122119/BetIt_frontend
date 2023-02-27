@@ -112,7 +112,7 @@ export default function DashboardIndex({ Component, pageProps }) {
             <Card data={data["0050"]} />
           </Grid>
           <Grid item xs={11} sm={11} md={6} lg={4} xl={4} key={"0051"}>
-            <Card data={data["0051"]} />
+            {/* <Card data={data["0051"]} /> */}
           </Grid>
           <Grid
             item

@@ -116,11 +116,11 @@ export default function SignupDialog(props) {
       setTextPassword(false);
       setTextCheckPassword(false);
     } else if (account && email && password && checkPassword) {
-      let url = "https://www.betit.online/regist/";
+      let url = "https://www.betit.online/regist";
+      const myHeaders = new Headers();
+      myHeaders.append("content-type", "application/json");
       fetch(url, {
-        headers: new Headers({
-          "Content-Type": "application/json",
-        }),
+        headers: myHeaders,
         body: JSON.stringify({
           account: account,
           email: email,
@@ -128,20 +128,19 @@ export default function SignupDialog(props) {
           check_password: checkPassword,
         }),
         method: "POST",
-        mode: "cors",
       })
         .then((response) => response.json())
         .catch((error) => console.error("Error:", error))
         .then((response) => {
           console.log(response);
-          if (response["message"] === "註冊完成") {
+         
             setAccount(null);
             setEmail(null);
             setPassword(null);
             setCheckPassword(null);
             setMessage("");
             props.clickClose();
-          }
+          
         });
     }
   };

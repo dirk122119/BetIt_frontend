@@ -49,7 +49,7 @@ export default function ButtonSpeedDials(props){
               />
 
           </SpeedDial>
-          <GameDialog open={GameDialogsClickOpen} clickClose={handleGameDialogsClickClose} user={props.user}/>
+          <GameDialog open={GameDialogsClickOpen} clickClose={handleGameDialogsClickClose} user={props.user} email={props.email}/>
           </>
     )
 }

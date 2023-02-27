@@ -32,6 +32,8 @@ import LoginDialog from "@/components/LoginDialog";
 import SignupDialog from "@/components/SignupDialog";
 import cookie from "cookie";
 import Cookies from "js-cookie";
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
 const drawerWidth = 240;
 
@@ -110,12 +112,24 @@ export default function Layout({ children }) {
   const [SignupDialogsClickOpen, setSignupDialogsClickOpen] =
     React.useState(false);
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const MenuOpen = Boolean(anchorEl);
+  const handleMenuClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
   const handleLoginDialogsClickClose = () => setLoginDialogsClickOpen(false);
   const handleLoginDialogsClickOpen = () => setLoginDialogsClickOpen(true);
   const handleSignupDialogsClickClose = () => setSignupDialogsClickOpen(false);
   const handleSignupDialogsClickOpen = () => setSignupDialogsClickOpen(true);
   const handleDrawer = () => setOpen(!open);
   const handleAuth = (account) => setAuth(account);
+  const handleLogout = ()=>{
+    setAuth(null)
+    localStorage.removeItem("betitJwt")
+  }
 
   if (typeof window !== "undefined") {
     const jwt = localStorage.getItem("betitJwt");
@@ -163,21 +177,22 @@ export default function Layout({ children }) {
             </Typography>
             {auth && (
               <div>
-                <IconButton
-                  size="large"
-                  aria-label="account of current user"
-                  aria-controls="menu-appbar"
-                  aria-haspopup="true"
-                  onClick={() => {
-                    alert("click");
-                    const fetchToken = Cookies.get("fastJwt");
-                    alert(fetchToken);
-                  }}
-                  color="inherit"
-                >
-                  <AccountCircle />
-                </IconButton>
-                {auth}
+                <Box>
+                  <Button sx={{ color: "white",textTransform: "none" }} onClick={handleMenuClick}>
+                    {auth}
+                  </Button>
+                  <Menu
+                    anchorEl={anchorEl}
+                    open={MenuOpen}
+                    onClose={handleMenuClose}
+                    MenuListProps={{
+                      "aria-labelledby": "basic-button",
+                    }}
+                  >
+                    <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                  </Menu>
+                </Box>
               </div>
             )}
             {!auth && (
@@ -351,7 +366,11 @@ export default function Layout({ children }) {
           <main>{children}</main>
         </Box>
       </Box>
-      <ButtonSpeedDial user={auth} login={handleLoginDialogsClickOpen} />
+      <ButtonSpeedDial
+        user={auth}
+        email={email}
+        login={handleLoginDialogsClickOpen}
+      />
       <LoginDialog
         open={LoginDialogsClickOpen}
         clickClose={handleLoginDialogsClickClose}
