@@ -11,6 +11,7 @@ import {
   CircularProgress,
   TableSortLabel,
   Box,
+  Grid
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
 import PropTypes from "prop-types";
@@ -231,9 +232,8 @@ export default function TwDataTable() {
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
-        <TableContainer sx={{ maxHeight: 600 }}>
-          {/* <Table stickyHeader aria-label="sticky table"> */}
-          <Table stickyHeader aria-label="sticky table">
+        <TableContainer sx={{ maxHeight: 600}}>
+          <Table stickyHeader >
             <EnhancedTableHead
               order={order}
               orderBy={orderBy}
@@ -308,6 +308,6 @@ export default function TwDataTable() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-    </Box>
+      </Box>
   );
 }

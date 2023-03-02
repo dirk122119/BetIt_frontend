@@ -72,7 +72,7 @@ export default function GameDialog(props) {
   );
   const [date, setDate] = React.useState(null);
   const [target, setTarget] = React.useState(null);
-  const [priceLabel,setPriceLabel] = React.useState(null);
+  const [priceLabel,setPriceLabel] = React.useState("USD");
   const fetcher = (url) => fetch(url).then((r) => r.json());
   const { data, error, isLoading } = useSWR(dataUrl, fetcher);
   if (!data) {
@@ -89,7 +89,7 @@ export default function GameDialog(props) {
       setPriceLabel("TWD")
     }
     if (event.target.value === "crypto") {
-      setDataUrl("https://www.betit.online/crypto/top250_market_symbol");
+      setDataUrl("https://www.betit.online/redis_crypto_symbol");
       setPriceLabel("USD")
     }
   };
@@ -104,7 +104,7 @@ export default function GameDialog(props) {
     setTarget(event.target.value);
   };
   const handleClose=()=>{
-          setMarket("")
+          setMarket("us_stock")
           setDirect("")
           setSymbol("")
           setDate(null)
@@ -135,7 +135,7 @@ export default function GameDialog(props) {
         props.clickClose();
         console.log(response)
         if(response["message"]==="create finish"){
-          setMarket("")
+          setMarket("us_stock")
           setDirect("")
           setSymbol("")
           setDate(null)
@@ -208,7 +208,7 @@ export default function GameDialog(props) {
                     renderInput={(params) => (
                       <TextField {...params} sx={{ width: "100%" }} />
                     )}
-                    disablePast={true}
+                    disablePast={false}
                   />
                 </LocalizationProvider>
               </Grid>

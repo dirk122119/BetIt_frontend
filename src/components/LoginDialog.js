@@ -71,6 +71,7 @@ export default function LoginDialog(props) {
   const [showPassword, setShowPassword] = React.useState(false);
   const [textAccount, setTextAccount] = React.useState(true);
   const [textPassword, setTextPassword] = React.useState(true);
+  const [message, setMessage] = React.useState("");
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event) => {
@@ -102,21 +103,41 @@ export default function LoginDialog(props) {
       method: "PUT",
       headers: myHeaders,
       body: JSON.stringify({
-        email:account,
-        password:password
+        email: account,
+        password: password,
       }),
     };
-    fetch(url,requestOptions)
-      .then((response) => response.json())
-      .catch((error) => console.error("Error:", error))
+    fetch(url, requestOptions)
+      .then(async (response) => {
+        if (!response.ok) {
+          let data = await response.json();
+          let err = new Error("HTTP status code: " + response.status);
+          err.response = data;
+          err.status = response.status;
+          throw err;
+        }
+        return response.json();
+      })
       .then((response) => {
-        props.login(response["data"]["account"])
-        localStorage.setItem('betitJwt', response["data"]["token"]);
+        props.login(response["data"]["account"]);
+        localStorage.setItem("betitJwt", response["data"]["token"]);
         setAccount("");
         setPassword("");
         setTextAccount(true);
         setTextPassword(true);
         props.clickClose();
+      })
+      .catch((error) => {
+        console.log(error);
+        switch (error.status) {
+          case 400:
+            setMessage(error.response["data"]["message"]);
+            break;
+          case 500:
+            console.log(error.response["data"]["message"], error.status);
+            setMessage(error.response["data"]["message"]);
+            break;
+        }
       });
   };
 
@@ -147,7 +168,7 @@ export default function LoginDialog(props) {
                 <TextField
                   required
                   id="outlined-required"
-                  label="account"
+                  label="註冊信箱"
                   onChange={handleAccount}
                 />
               )}
@@ -155,7 +176,7 @@ export default function LoginDialog(props) {
                 <TextField
                   error
                   id="outlined-required"
-                  label="請輸入帳號"
+                  label="請輸入信箱"
                   onChange={handleAccount}
                 />
               )}
@@ -220,6 +241,21 @@ export default function LoginDialog(props) {
                 </FormControl>
               )}
             </div>
+            {message && (
+              <div>
+                <Typography
+                  variant="subtitle1"
+                  gutterBottom
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    color: "red",
+                  }}
+                >
+                  {message}
+                </Typography>
+              </div>
+            )}
           </Box>
         </DialogContent>
         <DialogActions>

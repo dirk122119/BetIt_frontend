@@ -11,15 +11,16 @@ import {
   CircularProgress,
   TableSortLabel,
   Box,
+  Chip
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
 import PropTypes from "prop-types";
 import useSWR from "swr";
 import * as React from "react";
+import { jaJP } from "@mui/x-date-pickers";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
-   
     return -1;
   }
   if (b[orderBy] > a[orderBy]) {
@@ -49,52 +50,45 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-    id: "stock_id",
+    id: "market",
     numeric: false,
     disablePadding: true,
-    label: "股票代號",
+    label: "選擇市場",
+    minWidth: 100,
+  },
+  {
+    id: "symbol",
+    numeric: false,
+    disablePadding: true,
+    label: "標的",
     minWidth: 100,
   },
   {
     id: "date",
     numeric: false,
     disablePadding: true,
-    label: "最後更新時間",
+    label: "時間",
     minWidth: 100,
   },
   {
-    id: "open",
+    id: "price",
     numeric: true,
     disablePadding: true,
-    label: "open",
+    label: "打賭價格",
     minWidth: 100,
   },
   {
-    id: "close",
+    id: "isFinish",
     numeric: true,
     disablePadding: true,
-    label: "close",
+    label: "狀態",
     minWidth: 100,
   },
   {
-    id: "high",
+    id: "isReach",
     numeric: true,
     disablePadding: true,
-    label: "high",
-    minWidth: 100,
-  },
-  {
-    id: "low",
-    numeric: true,
-    disablePadding: true,
-    label: "low",
-    minWidth: 100,
-  },
-  {
-    id: "volume",
-    numeric: true,
-    disablePadding: true,
-    label: "volume",
+    label: "是否達標",
     minWidth: 100,
   },
 ];
@@ -102,7 +96,6 @@ const headCells = [
 function EnhancedTableHead(props) {
   const { order, orderBy, onRequestSort } = props;
   const createSortHandler = (property) => (event) => {
-
     onRequestSort(event, property);
   };
 
@@ -141,48 +134,25 @@ EnhancedTableHead.propTypes = {
   orderBy: PropTypes.string.isRequired,
 };
 
-function createData(
-  stock_id,
-  date,
-  open,
-  high,
-  close,
-  low,
-  volume
-) {
+function createData(market, symbol, date, price, direct, isFinish, isReach) {
   return {
-    stock_id,
+    market,
+    symbol,
     date,
-    open,
-    high,
-    close,
-    low,
-    volume
+    price,
+    direct,
+    isFinish,
+    isReach,
   };
 }
 
-export default function UsDataTable() {
-  const fetcher = (url) => fetch(url).then((r) => r.json());
-  const { data, error, isLoading } = useSWR(
-    "https://betit.online/redis_us",
-    fetcher,
-    {
-      refreshInterval: 10000,
-    }
-  );
-
+export default function UserBetTable(props) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [BackdropOpen, setBackdropOpen] = React.useState(true);
   const [order, setOrder] = React.useState("desc");
   const [orderBy, setOrderBy] = React.useState("open");
 
-  const handleBackdropClose = () => {
-    setBackdropOpen(false);
-  };
-  const handleBackdropToggle = () => {
-    setBackdropOpen(!open);
-  };
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -197,37 +167,21 @@ export default function UsDataTable() {
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
-
-  if (error) return <div>failed to load</div>;
-  if (!data)
-    return (
-      <div>
-        <Backdrop
-          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={BackdropOpen}
-          onClick={handleBackdropClose}
-        >
-          <CircularProgress color="inherit" />
-        </Backdrop>
-      </div>
-    );
-
-  const rows = data.map((item) =>
+  const rows = props.games.map(game =>
     createData(
-      item["stock_id"],
-      item["date"],
-      item["Open"],
-      item["High"],
-      item["Close"],
-      item["Low"],
-      item["Volume"],
+      game["game_market"],
+      game["game_symbol"],
+      game["game_date"],
+      game["game_price"],
+      game["game_direct"],
+      game["game_isFinish"],
+      game["game_isReach"]
     )
   );
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
         <TableContainer sx={{ maxHeight: 600 }}>
-          {/* <Table stickyHeader aria-label="sticky table"> */}
           <Table stickyHeader aria-label="sticky table">
             <EnhancedTableHead
               order={order}
@@ -249,43 +203,44 @@ export default function UsDataTable() {
                         key={`${page * rowsPerPage + index + 1}-2`}
                         align="left"
                       >
-                        <span>{row["stock_id"]}</span>
+                        <span>{row["market"]}</span>
                       </TableCell>
                       <TableCell
                         key={`${page * rowsPerPage + index + 1}-4`}
                         align="left"
                       >
-                        <span>{row["date"]}</span>
+                        <span>{row["symbol"]}</span>
                       </TableCell>
                       <TableCell
                         key={`${page * rowsPerPage + index + 1}-5`}
                         align="left"
                       >
-                        <span>{row["open"]}</span>
+                        <span>{row["date"]}</span>
                       </TableCell>
                       <TableCell
                         key={`${page * rowsPerPage + index + 1}-6`}
                         align="left"
                       >
-                        <span>{row["high"]}</span>
-                      </TableCell>
-                      <TableCell
-                        key={`${page * rowsPerPage + index + 1}-7`}
-                        align="left"
-                      >
-                        <span>{row["close"]}</span>
+                        <span>{row["price"]} {row["market"]==="tw_stuck"?"NTD":"USD"} {row["direct"]==="up"?"以上":"以下"}</span>
                       </TableCell>
                       <TableCell
                         key={`${page * rowsPerPage + index + 1}-8`}
                         align="left"
                       >
-                        <span>{row["low"]}</span>
+                        <Chip label={row["isFinish"]?"結束":"進行中"} sx={row["isFinish"]?{backgroundColor:"grey",color:"white"}:{backgroundColor:"green",color:"white"}} />
                       </TableCell>
                       <TableCell
                         key={`${page * rowsPerPage + index + 1}-9`}
                         align="left"
                       >
-                        <span>{row["volume"]}</span>
+                      {row["isFinish"] &&(
+                        <Chip label={row["isReach"]?"win":"lose"} sx={row["isReach"]?{backgroundColor:"red",color:"white"}:{backgroundColor:"green",color:"white"}} />
+                        )
+                      }
+                      {!row["isFinish"] &&(
+                        <Chip label="進行中" color="primary" />
+                       )
+                      }
                       </TableCell>
                     </TableRow>
                   );
@@ -293,15 +248,6 @@ export default function UsDataTable() {
             </TableBody>
           </Table>
         </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[25, 50, 75, 100]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
       </Paper>
     </Box>
   );

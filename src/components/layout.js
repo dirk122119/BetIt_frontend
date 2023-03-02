@@ -140,7 +140,7 @@ export default function Layout({ children }) {
       let requestOptions = {
         method: "GET",
         headers: myHeaders,
-      };
+      }
       let url = "https://www.betit.online/checkjwt";
       fetch(url, requestOptions)
         .then((response) => response.json())
@@ -153,6 +153,7 @@ export default function Layout({ children }) {
         });
     }
   }
+  
 
   return (
     <>
@@ -189,7 +190,7 @@ export default function Layout({ children }) {
                       "aria-labelledby": "basic-button",
                     }}
                   >
-                    <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+                    <MenuItem ><Link href="/user">Profile</Link></MenuItem>
                     <MenuItem onClick={handleLogout}>Logout</MenuItem>
                   </Menu>
                 </Box>

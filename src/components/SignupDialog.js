@@ -84,7 +84,14 @@ export default function SignupDialog(props) {
   const handleEmail = (event) => setEmail(event.target.value);
   const handlePassword = (event) => setPassword(event.target.value);
   const handleCheckPassword = (event) => setCheckPassword(event.target.value);
-
+  const handlModalclose=()=>{
+    setTextAccount(true)
+    setTextEmail(true)
+    setTextPassword(true)
+    setTextCheckPassword(true)
+    setMessage("");
+    props.clickClose()
+  }
   const handleSignup = () => {
     setMessage("");
     if (account === "") {
@@ -152,7 +159,10 @@ export default function SignupDialog(props) {
           console.log(error);
           switch (error.status) {
             case 400:
-              console.log(error.response['data']['message'], error.status);
+              if(error.response['data']["message"]==="重複的email")
+              {
+                setTextEmail(false)
+              }
               setMessage(error.response['data']["message"])
               break;
             case 500:
@@ -173,7 +183,7 @@ export default function SignupDialog(props) {
       >
         <BootstrapDialogTitle
           id="customized-dialog-title"
-          onClose={props.clickClose}
+          onClose={handlModalclose}
         >
           使用者註冊
         </BootstrapDialogTitle>
@@ -337,7 +347,7 @@ export default function SignupDialog(props) {
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleSignup}>
-            登入
+            註冊
           </Button>
         </DialogActions>
       </BootstrapDialog>
