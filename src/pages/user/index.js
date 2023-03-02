@@ -24,7 +24,7 @@ export default function User() {
         method: "GET",
         headers: myHeaders,
       }
-      let url = "http://127.0.0.1:8000/profile";
+      let url = "https://www.betit.online/profile";
       fetch(url, requestOptions)
         .then((response) => response.json())
         .then((response) => {
