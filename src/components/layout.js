@@ -174,7 +174,7 @@ export default function Layout({ children }) {
             </IconButton>
 
             <Typography variant="h4" noWrap component="h4" sx={{ flexGrow: 1 }}>
-              <Link href="/">Bet It</Link>
+              <Link href="/">Bet It </Link>
             </Typography>
             {auth && (
               <div>

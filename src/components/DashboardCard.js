@@ -12,7 +12,7 @@ export default function CrryptoDashbordCard(props){
                             <span style={props.data.latest_price.toFixed(3)-props.data.previouse_close_price.toFixed(3) > 0 ? {fontSize:"15px",color:"green"}:{fontSize:"20px",color:"red"}}>{((props.data.latest_price-props.data.previouse_close_price)*100/props.data.previouse_close_price).toFixed(1)}%</span>
                         </Typography>
                         <Typography component="h6" variant="h6" sx={{display: "flex",alignItems: "flex-end",paddingTop:"5px"}}>
-                            {props.data.latest_price.toFixed(2)} {props.pricelabel}
+                            {props.data.latest_price.toFixed(2)} USD
                         </Typography>
                     </CardContent>
 
