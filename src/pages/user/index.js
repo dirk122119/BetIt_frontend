@@ -56,7 +56,7 @@ export default function User() {
     <div>
       <h1>{user}</h1>
       <h3>{email}</h3>
-      <span>勝:{win}次  敗:{lose}次 勝率{(win/(win+lose))*100}%</span>
+      <span>勝:{win}次  敗:{lose}次 勝率{((win/(win+lose))*100).toFixed(1)}%</span>
       <br></br>
 
       <UserBetTable games={games}/>

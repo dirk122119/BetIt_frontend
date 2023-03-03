@@ -85,7 +85,7 @@ export default function GameDialog(props) {
       setPriceLabel("USD")
     }
     if (event.target.value === "tw_stock") {
-      setDataUrl("https://www.betit.online/tw_stock/get_us_all_symbol");
+      setDataUrl("https://www.betit.online/tw_stock/get_tw_all_symbol");
       setPriceLabel("TWD")
     }
     if (event.target.value === "crypto") {
@@ -185,7 +185,6 @@ export default function GameDialog(props) {
               <Grid item xs={6}>
                 <Autocomplete
                   disablePortal
-                  
                   id="combo-box-demo"
                   options={data["symbol"]}
                   getOptionLabel={(option) => option.symbol}

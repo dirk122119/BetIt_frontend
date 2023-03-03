@@ -152,6 +152,7 @@ function EnhancedTableHead(props) {
   function createData(
     rank,
     name,
+    id,
     last_updated,
     current_price,
     price_change_1h,
@@ -163,6 +164,7 @@ function EnhancedTableHead(props) {
     return {
         rank,
         name,
+        id,
         last_updated,
         current_price,
         price_change_1h,
@@ -228,6 +230,7 @@ function EnhancedTableHead(props) {
       createData(
         item["market_cap_rank"],
         item["name"],
+        item["id"],
         item["last_updated"],
         item["current_price"],
         item["price_change_percentage_1h_in_currency"],
@@ -271,7 +274,7 @@ function EnhancedTableHead(props) {
                           align="left"
                         >
                          <img src={row["image"]} style={{verticalAlign:"middle",width:"30px",height:"30px",borderRadius:"50%",marginRight:"20px"}}/>
-                          <span>{row["name"]}</span>
+                          <span>{row["name"]}({row["id"]})</span>
                         </TableCell>
                         <TableCell
                           key={`${page * rowsPerPage + index + 1}-5`}

@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import * as React from 'react';
 
-const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
+const Chart = dynamic(() => import("react-apexcharts"), { ssr: true });
 
 export default function Sparkline(props){
     let series = [{ data:props.priceList }]

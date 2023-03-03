@@ -74,10 +74,10 @@ export default function DashboardIndex({ Component, pageProps }) {
             xl={4}
             key={"Dow Jones Industrial Average"}
           >
-            <Card data={data["Dow Jones Industrial Average"]} />
+            <Card data={data["Dow Jones Industrial Average"]} pricelabel="USD"/>
           </Grid>
           <Grid item xs={11} sm={11} md={6} lg={4} xl={4} key={"S&P 500"}>
-            <Card data={data["S&P 500"]} />
+            <Card data={data["S&P 500"]} pricelabel="USD"/>
           </Grid>
           <Grid
             item
@@ -88,7 +88,7 @@ export default function DashboardIndex({ Component, pageProps }) {
             xl={4}
             key={"NASDAQ Composite"}
           >
-            <Card data={data["NASDAQ Composite"]} />
+            <Card data={data["NASDAQ Composite"]} pricelabel="USD"/>
           </Grid>
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12} key={"tw_title"}>
             <Typography
@@ -106,10 +106,10 @@ export default function DashboardIndex({ Component, pageProps }) {
           </Grid>
 
           <Grid item xs={11} sm={11} md={6} lg={4} xl={4} key={"tw_index"}>
-            <Card data={data["tw_index"]} />
+            <Card data={data["tw_index"]} pricelabel="TWD"/>
           </Grid>
           <Grid item xs={11} sm={11} md={6} lg={4} xl={4} key={"0050"}>
-            <Card data={data["0050"]} />
+            <Card data={data["0050"]} pricelabel="TWD" />
           </Grid>
           <Grid item xs={11} sm={11} md={6} lg={4} xl={4} key={"0051"}>
             {/* <Card data={data["0051"]} /> */}
@@ -137,13 +137,13 @@ export default function DashboardIndex({ Component, pageProps }) {
             </Typography>
           </Grid>
           <Grid item xs={11} sm={11} md={6} lg={4} xl={4} key={"BTC/USDT"}>
-            <Card data={data["BTC/USDT"]} />
+            <Card data={data["BTC/USDT"]} pricelabel="USD"/>
           </Grid>
           <Grid item xs={11} sm={11} md={6} lg={4} xl={4} key={"ETH/USDT"}>
-            <Card data={data["ETH/USDT"]} />
+            <Card data={data["ETH/USDT"]} pricelabel="USD"/>
           </Grid>
           <Grid item xs={11} sm={11} md={6} lg={4} xl={4} key={"BNB/USDT"}>
-            <Card data={data["BNB/USDT"]} />
+            <Card data={data["BNB/USDT"]} pricelabel="USD"/>
           </Grid>
         </Grid>
       </Box>
