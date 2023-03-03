@@ -103,9 +103,6 @@ const headCells = [
 function EnhancedTableHead(props) {
   const { order, orderBy, onRequestSort } = props;
   const createSortHandler = (property) => (event) => {
-    console.log("EnhancedTableHead")
-    console.log(event)
-    console.log(property)
     onRequestSort(event, property);
   };
 
@@ -180,7 +177,7 @@ export default function TwDataTable() {
   const [rowsPerPage, setRowsPerPage] = React.useState(25);
   const [BackdropOpen, setBackdropOpen] = React.useState(true);
   const [order, setOrder] = React.useState("desc");
-  const [orderBy, setOrderBy] = React.useState("open");
+  const [orderBy, setOrderBy] = React.useState("change_price");
 
   const handleBackdropClose = () => {
     setBackdropOpen(false);
@@ -260,7 +257,7 @@ export default function TwDataTable() {
                         key={`${page * rowsPerPage + index + 1}-3`}
                         align="left"
                       >
-                        <span>{row["change_price"]}</span>
+                        <span style={row["change_price"]>0?{color:"red"}:{color:"green"}}>{row["change_price"]}({row["change_rate"]}%)</span>
                       </TableCell>
                       <TableCell
                         key={`${page * rowsPerPage + index + 1}-4`}

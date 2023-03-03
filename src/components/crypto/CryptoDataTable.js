@@ -283,25 +283,40 @@ function EnhancedTableHead(props) {
                           key={`${page * rowsPerPage + index + 1}-6`}
                           align="left"
                         >
-                          <span>{row["current_price"]}</span>
+                          <span>{row["current_price"]} USD</span>
                         </TableCell>
                         <TableCell
                           key={`${page * rowsPerPage + index + 1}-7`}
                           align="left"
                         >
-                          <span>{row["price_change_1h"]}</span>
+                        {row["price_change_1h"] &&(
+                          <span style={row["price_change_1h"]>0?{color:"green"}:{color:"red"}}>{row["price_change_1h"].toFixed(2)}%</span>
+                        )}
+                        {!row["price_change_1h"] &&(
+                          <span>0%</span>
+                        )}
                         </TableCell>
                         <TableCell
                           key={`${page * rowsPerPage + index + 1}-8`}
                           align="left"
                         >
-                          <span>{row["price_change_24h"]}</span>
+                        {row["price_change_24h"] &&(
+                          <span style={row["price_change_24h"]>0?{color:"green"}:{color:"red"}}>{row["price_change_24h"].toFixed(2)}%</span>
+                        )}
+                        {!row["price_change_24h"] &&(
+                          <span>0%</span>
+                        )}
                         </TableCell>
                         <TableCell
                           key={`${page * rowsPerPage + index + 1}-9`}
                           align="left"
                         >
-                          <span>{row["price_change_7d"]}</span>
+                        {row["price_change_7d"] &&(
+                          <span style={row["price_change_7d"]>0?{color:"green"}:{color:"red"}}>{row["price_change_7d"].toFixed(2)}%</span>
+                          )}
+                          {!row["price_change_7d"] &&(
+                          <span>0%</span>
+                        )}
                         </TableCell>
                         <TableCell
                           key={`${page * rowsPerPage + index + 1}-10`}
