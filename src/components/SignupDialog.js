@@ -26,7 +26,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-
+import CustomizedSnackbars from "@/components/snackbar"
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
     padding: theme.spacing(2),
@@ -70,13 +70,14 @@ export default function SignupDialog(props) {
   const [email, setEmail] = React.useState(null);
   const [password, setPassword] = React.useState(null);
   const [checkPassword, setCheckPassword] = React.useState(null);
-
   const [showPassword, setShowPassword] = React.useState(false);
   const [textAccount, setTextAccount] = React.useState(true);
   const [textEmail, setTextEmail] = React.useState(true);
   const [textPassword, setTextPassword] = React.useState(true);
   const [textCheckPassword, setTextCheckPassword] = React.useState(true);
   const [message, setMessage] = React.useState("");
+  const [snackBarOpen, setSnackBarOpen] = React.useState(false);
+  const [snackBarState,setSnackBarState]= React.useState("");
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event) => event.preventDefault();
@@ -84,14 +85,14 @@ export default function SignupDialog(props) {
   const handleEmail = (event) => setEmail(event.target.value);
   const handlePassword = (event) => setPassword(event.target.value);
   const handleCheckPassword = (event) => setCheckPassword(event.target.value);
-  const handlModalclose=()=>{
-    setTextAccount(true)
-    setTextEmail(true)
-    setTextPassword(true)
-    setTextCheckPassword(true)
+  const handlModalclose = () => {
+    setTextAccount(true);
+    setTextEmail(true);
+    setTextPassword(true);
+    setTextCheckPassword(true);
     setMessage("");
-    props.clickClose()
-  }
+    props.clickClose();
+  };
   const handleSignup = () => {
     setMessage("");
     if (account === "") {
@@ -120,8 +121,10 @@ export default function SignupDialog(props) {
     }
     if (password != checkPassword) {
       setMessage("密碼不一置");
+      setSnackBarState("error")
       setTextPassword(false);
       setTextCheckPassword(false);
+      handleSnackBarOpen()
     } else if (account && email && password && checkPassword) {
       let url = "https://www.betit.online/regist";
       const myHeaders = new Headers();
@@ -145,39 +148,51 @@ export default function SignupDialog(props) {
             throw err;
           }
           return response.json();
-        }).then((response) => {
+        })
+        .then((response) => {
           setMessage("註冊成功");
-
+          setSnackBarOpen(true)
           setAccount(null);
           setEmail(null);
-          setPassword(null);
-          setCheckPassword(null);
-          setMessage("");
-          // props.clickClose();
+          setSnackBarState("success")
+          handleSnackBarOpen()
+          props.clickClose();
         })
         .catch((error) => {
           console.log(error);
           switch (error.status) {
             case 400:
-              if(error.response['data']["message"]==="重複的email")
-              {
-                setTextEmail(false)
+              if (error.response["data"]["message"] === "重複的email") {
+                setTextEmail(false);
               }
-              setMessage(error.response['data']["message"])
+              setMessage(error.response["data"]["message"]);
+              setSnackBarState("error")
+              handleSnackBarOpen()
               break;
             case 500:
-              console.log(error.response['data']['message'], error.status);
-              setMessage(error.response["data"]["message"])
+              console.log(error.response["data"]["message"], error.status);
+              setMessage(error.response["data"]["message"]);
+              setSnackBarState("error")
+              handleSnackBarOpen()
               break;
           }
         });
     }
   };
 
+  const handleSnackBarOpen=()=>{
+    setSnackBarOpen(true)
+  }
+
+  const handleSnackBarClose=()=>{
+    setSnackBarOpen(false)
+  }
+
+
   return (
     <div>
       <BootstrapDialog
-        onClose={props.clickClose}
+        onClose={handlModalclose}
         aria-labelledby="customized-dialog-title"
         open={props.open}
       >
@@ -328,21 +343,6 @@ export default function SignupDialog(props) {
                 </FormControl>
               )}
             </div>
-            {message && (
-              <div>
-                <Typography
-                  variant="subtitle1"
-                  gutterBottom
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    color: "red",
-                  }}
-                >
-                  {message}
-                </Typography>
-              </div>
-            )}
           </Box>
         </DialogContent>
         <DialogActions>
@@ -351,6 +351,7 @@ export default function SignupDialog(props) {
           </Button>
         </DialogActions>
       </BootstrapDialog>
+      <CustomizedSnackbars open={snackBarOpen} close={handleSnackBarClose} state={snackBarState} message={message}/>
     </div>
   );
 }

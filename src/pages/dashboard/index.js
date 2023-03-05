@@ -40,7 +40,6 @@ export default function DashboardIndex({ Component, pageProps }) {
         </Backdrop>
       </div>
     );
-  console.log(data);
   return (
     <>
       <Head>Dashboard</Head>

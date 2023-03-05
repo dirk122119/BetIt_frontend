@@ -21,7 +21,6 @@ export default function RoomCard(props) {
 
   return (
     <Card sx={{ maxWidth: 400, backgroundColor: "rgba(155,152,151,0.4)" }}>
-      <CardActionArea>
         <CardMedia component="img" height="150" image={url} />
         <CardContent sx={{ display: "flex" }}>
           <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
@@ -39,16 +38,7 @@ export default function RoomCard(props) {
               {props.date}
             </Typography>
           </Box>
-          {/* <Box sx={{ display: "flex",width:"40%", flexDirection: "column" }}>
-          <Typography gutterBottom variant="h5" component="div">
-              Creater
-            </Typography>
-            <Typography gutterBottom variant="body1" color="text.secondary" component="div">
-             {props.creater}
-            </Typography>
-          </Box> */}
         </CardContent>
-      </CardActionArea>
     </Card>
   );
 }

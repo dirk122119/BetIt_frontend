@@ -4,7 +4,7 @@ import Sparkline from './Sparkline';
 export default function CrryptoDashbordCard(props){
     return (
         <Card sx={{ display: "flex",height:"200px" }}>
-            <CardActionArea sx={{ display: "flex" }}>
+
                 <Box sx={{ display: "flex", flexDirection: "column", width:"40%"}}>
                     <CardContent>
                         <Typography component="h5" variant="h5">
@@ -18,10 +18,10 @@ export default function CrryptoDashbordCard(props){
 
                 </Box>
                 <Box sx={{ display: "flex",width:"60%", justifyContent:"flex-end" }}>
-                    <Sparkline priceList={props.data.price_close}/>
+                    <Sparkline priceList={props.data.price_close} pricelabel={props.pricelabel}/>
                 </Box>
                 
-            </CardActionArea>
+
 
         </Card>
     )

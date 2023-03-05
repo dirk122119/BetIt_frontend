@@ -1,6 +1,9 @@
+
 import * as React from "react";
 import UserBetTable from "@/components/user/userBetTable"
 import {Backdrop,CircularProgress} from "@mui/material";
+import CustomizedSnackbars from "@/components/snackbar"
+import { redirect } from 'next/navigation';
 export default function User() {
 
   const [user,setUser]=React.useState("")
@@ -10,9 +13,13 @@ export default function User() {
   const [games,setGames]=React.useState("")
   const [BackdropOpen, setBackdropOpen] = React.useState(true);
 
+
+
   const handleBackdropClose = () => {
     setBackdropOpen(false);
   };
+
+
 
   if (typeof window !== "undefined") {
     const jwt = localStorage.getItem("betitJwt");
@@ -38,6 +45,12 @@ export default function User() {
           }
         })
     }
+    else{
+      
+        window.location.href = '../';
+      
+      
+    }
   }
   if (BackdropOpen){
     return (
@@ -60,7 +73,6 @@ export default function User() {
       <br></br>
 
       <UserBetTable games={games}/>
-
     </div>
   );
 }

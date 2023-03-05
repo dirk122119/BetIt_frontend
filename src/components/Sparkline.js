@@ -29,7 +29,7 @@ export default function Sparkline(props){
             y: {
                 title: {
                     formatter: function (seriesName) {
-                        return 'USD'
+                        return props.pricelabel
                     }
                 }
             },

@@ -26,6 +26,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import CustomizedSnackbars from "@/components/snackbar"
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -72,6 +73,8 @@ export default function LoginDialog(props) {
   const [textAccount, setTextAccount] = React.useState(true);
   const [textPassword, setTextPassword] = React.useState(true);
   const [message, setMessage] = React.useState("");
+  const [snackBarOpen, setSnackBarOpen] = React.useState(false);
+  const [snackBarState,setSnackBarState]= React.useState("");
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event) => {
@@ -125,6 +128,9 @@ export default function LoginDialog(props) {
         setPassword("");
         setTextAccount(true);
         setTextPassword(true);
+        setMessage("登入成功")
+        setSnackBarState("success")
+        handleSnackBarOpen()
         props.clickClose();
       })
       .catch((error) => {
@@ -132,14 +138,26 @@ export default function LoginDialog(props) {
         switch (error.status) {
           case 400:
             setMessage(error.response["data"]["message"]);
+            setSnackBarState("error")
+            handleSnackBarOpen()
             break;
           case 500:
             console.log(error.response["data"]["message"], error.status);
             setMessage(error.response["data"]["message"]);
+            setSnackBarState("error")
+            handleSnackBarOpen()
             break;
         }
       });
   };
+
+  const handleSnackBarOpen=()=>{
+    setSnackBarOpen(true)
+  }
+
+  const handleSnackBarClose=()=>{
+    setSnackBarOpen(false)
+  }
 
   return (
     <div>
@@ -241,21 +259,7 @@ export default function LoginDialog(props) {
                 </FormControl>
               )}
             </div>
-            {message && (
-              <div>
-                <Typography
-                  variant="subtitle1"
-                  gutterBottom
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    color: "red",
-                  }}
-                >
-                  {message}
-                </Typography>
-              </div>
-            )}
+
           </Box>
         </DialogContent>
         <DialogActions>
@@ -264,6 +268,7 @@ export default function LoginDialog(props) {
           </Button>
         </DialogActions>
       </BootstrapDialog>
+      <CustomizedSnackbars open={snackBarOpen} close={handleSnackBarClose} state={snackBarState} message={message}/>
     </div>
   );
 }
