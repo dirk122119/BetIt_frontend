@@ -130,6 +130,9 @@ export default function Layout({ children }) {
     setAuth(null)
     localStorage.removeItem("betitJwt")
   }
+  const handleProfile = ()=>{
+    window.location.href = '../user';
+  }
 
   if (typeof window !== "undefined") {
     const jwt = localStorage.getItem("betitJwt");
@@ -190,7 +193,7 @@ export default function Layout({ children }) {
                       "aria-labelledby": "basic-button",
                     }}
                   >
-                    <MenuItem ><Link href="/user">Profile</Link></MenuItem>
+                    <MenuItem onClick={handleProfile}>Profile</MenuItem>
                     <MenuItem onClick={handleLogout}>Logout</MenuItem>
                   </Menu>
                 </Box>
