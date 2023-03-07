@@ -78,6 +78,9 @@ export default function GameDialog(props) {
   if (!data) {
     return <div>loading</div>;
   }
+  if(data){
+    console.log(data)
+  }
   const handleMarketChange = (event) => {
     setMarket(event.target.value);
     if (event.target.value === "us_stock") {

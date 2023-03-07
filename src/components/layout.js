@@ -32,8 +32,8 @@ import LoginDialog from "@/components/LoginDialog";
 import SignupDialog from "@/components/SignupDialog";
 import cookie from "cookie";
 import Cookies from "js-cookie";
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 
 const drawerWidth = 240;
 
@@ -104,6 +104,7 @@ const Drawer = styled(MuiDrawer, {
 
 export default function Layout({ children }) {
   const theme = useTheme();
+  const ref = React.useRef(null);
   const [open, setOpen] = React.useState(false);
   const [auth, setAuth] = React.useState(null);
   const [email, setEmail] = React.useState(null);
@@ -126,13 +127,11 @@ export default function Layout({ children }) {
   const handleSignupDialogsClickOpen = () => setSignupDialogsClickOpen(true);
   const handleDrawer = () => setOpen(!open);
   const handleAuth = (account) => setAuth(account);
-  const handleLogout = ()=>{
-    setAuth(null)
-    localStorage.removeItem("betitJwt")
-  }
-  const handleProfile = ()=>{
-    window.location.href = '../user';
-  }
+  const handleLogout = () => {
+    setAuth(null);
+    setAnchorEl(null);
+    localStorage.removeItem("betitJwt");
+  };
 
   if (typeof window !== "undefined") {
     const jwt = localStorage.getItem("betitJwt");
@@ -143,7 +142,7 @@ export default function Layout({ children }) {
       let requestOptions = {
         method: "GET",
         headers: myHeaders,
-      }
+      };
       let url = "https://www.betit.online/checkjwt";
       fetch(url, requestOptions)
         .then((response) => response.json())
@@ -156,7 +155,6 @@ export default function Layout({ children }) {
         });
     }
   }
-  
 
   return (
     <>
@@ -179,44 +177,56 @@ export default function Layout({ children }) {
             <Typography variant="h4" noWrap component="h4" sx={{ flexGrow: 1 }}>
               <Link href="/">Bet It </Link>
             </Typography>
-            {auth && (
-              <div>
-                <Box>
-                  <Button sx={{ color: "white",textTransform: "none" }} onClick={handleMenuClick}>
-                    {auth}
-                  </Button>
-                  <Menu
-                    anchorEl={anchorEl}
-                    open={MenuOpen}
-                    onClose={handleMenuClose}
-                    MenuListProps={{
-                      "aria-labelledby": "basic-button",
-                    }}
-                  >
-                    <MenuItem onClick={handleProfile}>Profile</MenuItem>
-                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                  </Menu>
-                </Box>
-              </div>
-            )}
-            {!auth && (
-              <Box>
-                <Button
-                  color="inherit"
-                  onClick={handleLoginDialogsClickOpen}
-                  sx={{ textTransform: "none" }}
-                >
-                  Login
-                </Button>
-                <Button
-                  color="inherit"
-                  sx={{ textTransform: "none" }}
-                  onClick={handleSignupDialogsClickOpen}
-                >
-                  Sign up
-                </Button>
-              </Box>
-            )}
+
+            <Box>
+              <Button
+                ref={ref}
+                sx={
+                  auth
+                    ? { color: "white", textTransform: "none" }
+                    : { color: "white", textTransform: "none", display: "none" }
+                }
+                onClick={handleMenuClick}
+              >
+                {auth}
+              </Button>
+              <Menu
+                anchorEl={anchorEl}
+                open={MenuOpen}
+                onClose={handleMenuClose}
+                MenuListProps={{
+                  "aria-labelledby": "basic-button",
+                }}
+              >
+                <MenuItem>
+                  <Link href="/user">Profile</Link>
+                </MenuItem>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              </Menu>
+
+              <Button
+                color="inherit"
+                onClick={handleLoginDialogsClickOpen}
+                sx={
+                  auth
+                    ? { textTransform: "none", display: "none" }
+                    : { textTransform: "none" }
+                }
+              >
+                Login
+              </Button>
+              <Button
+                color="inherit"
+                sx={
+                  auth
+                    ? { textTransform: "none", display: "none" }
+                    : { textTransform: "none" }
+                }
+                onClick={handleSignupDialogsClickOpen}
+              >
+                Sign up
+              </Button>
+            </Box>
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
