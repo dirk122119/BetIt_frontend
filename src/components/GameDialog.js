@@ -16,7 +16,6 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
 import Grid from "@mui/material/Grid";
 import useSWR from "swr";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -24,6 +23,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import InputAdornment from "@mui/material/InputAdornment";
 import OutlinedInput from "@mui/material/OutlinedInput";
+import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -147,6 +147,15 @@ export default function GameDialog(props) {
       });
       
   };
+  const filterOptions = createFilterOptions({
+    matchFrom: 'start',
+    stringify: (option) => option.symbol,
+  });
+  const isWeekend = (date) => {
+    const day = date.day();
+  
+    return day === 0 || day === 6;
+  };
   return (
     <div>
       <BootstrapDialog
@@ -192,6 +201,7 @@ export default function GameDialog(props) {
                   options={data["symbol"]}
                   getOptionLabel={(option) => option.symbol}
                   sx={{ width: "100%" }}
+                  filterOptions={filterOptions}
                   onInputChange={handleSymbolChange}
                   renderInput={(params) => (
                     <TextField {...params} label="標的" />
@@ -204,6 +214,8 @@ export default function GameDialog(props) {
                     label="選擇日期"
                     value={date}
                     views={["year", "month", "day"]}
+                    shouldDisableDate={isWeekend}
+                    disablePast
                     onChange={(newValue) => {
                       setDate(newValue);
                     }}

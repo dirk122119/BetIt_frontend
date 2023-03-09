@@ -11,16 +11,16 @@ import {
   CircularProgress,
   TableSortLabel,
   Box,
-  Grid
+  Grid,
 } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
 import PropTypes from "prop-types";
 import useSWR from "swr";
 import * as React from "react";
+import CandleChartDialog from "@/components/CandleChartDialog"
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
-   
     return -1;
   }
   if (b[orderBy] > a[orderBy]) {
@@ -178,7 +178,9 @@ export default function TwDataTable() {
   const [BackdropOpen, setBackdropOpen] = React.useState(true);
   const [order, setOrder] = React.useState("desc");
   const [orderBy, setOrderBy] = React.useState("change_price");
-
+  const [candleChartOpen, setCandleChartOpen] = React.useState(false);
+  const [symbol,setSymbol] = React.useState("")
+  const [candleChartData,setCandleChartData] = React.useState(false);
   const handleBackdropClose = () => {
     setBackdropOpen(false);
   };
@@ -199,6 +201,31 @@ export default function TwDataTable() {
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
+  const handleRowClick = (event, name) => {
+    setSymbol(name)
+    handleGetData(name)
+    handleCandleChartOpen()
+  };
+  const handleCandleChartClose = () => {
+    setCandleChartOpen(false);
+  };
+  const handleCandleChartOpen = () => {
+    setCandleChartOpen(true);
+  };
+  const handleGetData=async (symbol)=>{
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow'
+    };
+    
+    let symbolData=await fetch(`https://www.betit.online/tw_stock/get_symbol_OHCL?symbol=${symbol}`, requestOptions)
+      .then(response => response.json())
+      .then(result => result)
+      .catch(error => console.log('error', error));
+      
+    
+  }
+
 
   if (error) return <div>failed to load</div>;
   if (!data)
@@ -213,8 +240,7 @@ export default function TwDataTable() {
         </Backdrop>
       </div>
     );
-
-  const rows = data.map((item) =>
+    const rows = data.map((item) =>
     createData(
       item["stock_id"],
       item["change_price"],
@@ -227,10 +253,11 @@ export default function TwDataTable() {
     )
   );
   return (
+    <>
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
-        <TableContainer sx={{ maxHeight: 600}}>
-          <Table stickyHeader >
+        <TableContainer sx={{ maxHeight: 600 }}>
+          <Table stickyHeader>
             <EnhancedTableHead
               order={order}
               orderBy={orderBy}
@@ -245,8 +272,10 @@ export default function TwDataTable() {
                       hover
                       key={page * rowsPerPage + index + 1}
                       tabIndex={-1}
+                      onClick={(event) =>
+                        handleRowClick(event, row["stock_id"])
+                      }
                     >
-                   
                       <TableCell
                         key={`${page * rowsPerPage + index + 1}-2`}
                         align="left"
@@ -257,7 +286,15 @@ export default function TwDataTable() {
                         key={`${page * rowsPerPage + index + 1}-3`}
                         align="left"
                       >
-                        <span style={row["change_price"]>0?{color:"red"}:{color:"green"}}>{row["change_price"]}({row["change_rate"]}%)</span>
+                        <span
+                          style={
+                            row["change_price"] > 0
+                              ? { color: "red" }
+                              : { color: "green" }
+                          }
+                        >
+                          {row["change_price"]}({row["change_rate"]}%)
+                        </span>
                       </TableCell>
                       <TableCell
                         key={`${page * rowsPerPage + index + 1}-4`}
@@ -305,6 +342,8 @@ export default function TwDataTable() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-      </Box>
+    </Box>
+    <CandleChartDialog open={candleChartOpen} close={handleCandleChartClose} symbol={symbol} data={candleChartData}/>
+    </>
   );
 }
