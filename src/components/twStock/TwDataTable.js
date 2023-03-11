@@ -180,7 +180,8 @@ export default function TwDataTable() {
   const [orderBy, setOrderBy] = React.useState("change_price");
   const [candleChartOpen, setCandleChartOpen] = React.useState(false);
   const [symbol,setSymbol] = React.useState("")
-  const [candleChartData,setCandleChartData] = React.useState(false);
+  const [company,setCompany] = React.useState("")
+  const [candleChartData,setCandleChartData] = React.useState("");
   const handleBackdropClose = () => {
     setBackdropOpen(false);
   };
@@ -222,13 +223,14 @@ export default function TwDataTable() {
       .then(response => response.json())
       .then(result => result)
       .catch(error => console.log('error', error));
-      
+      setCompany(symbolData["data"][0]["companyName"])
+      setCandleChartData(symbolData)
     
   }
 
 
   if (error) return <div>failed to load</div>;
-  if (!data)
+  if (!data){
     return (
       <div>
         <Backdrop
@@ -240,7 +242,8 @@ export default function TwDataTable() {
         </Backdrop>
       </div>
     );
-    const rows = data.map((item) =>
+  }
+  const rows = data.map((item) =>
     createData(
       item["stock_id"],
       item["change_price"],
@@ -289,8 +292,8 @@ export default function TwDataTable() {
                         <span
                           style={
                             row["change_price"] > 0
-                              ? { color: "red" }
-                              : { color: "green" }
+                              ? { color: "green" }
+                              : { color: "red" }
                           }
                         >
                           {row["change_price"]}({row["change_rate"]}%)
@@ -343,7 +346,7 @@ export default function TwDataTable() {
         />
       </Paper>
     </Box>
-    <CandleChartDialog open={candleChartOpen} close={handleCandleChartClose} symbol={symbol} data={candleChartData}/>
+    <CandleChartDialog open={candleChartOpen} close={handleCandleChartClose} name={company} symbol={symbol} data={candleChartData}/>
     </>
   );
 }

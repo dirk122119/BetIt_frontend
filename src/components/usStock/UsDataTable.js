@@ -16,6 +16,7 @@ import { visuallyHidden } from "@mui/utils";
 import PropTypes from "prop-types";
 import useSWR from "swr";
 import * as React from "react";
+import CandleChartDialog from "@/components/CandleChartDialog"
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -176,6 +177,10 @@ export default function UsDataTable() {
   const [BackdropOpen, setBackdropOpen] = React.useState(true);
   const [order, setOrder] = React.useState("desc");
   const [orderBy, setOrderBy] = React.useState("open");
+  const [symbol,setSymbol] = React.useState("")
+  const [company,setCompany] = React.useState("")
+  const [candleChartOpen, setCandleChartOpen] = React.useState(false);
+  const [candleChartData,setCandleChartData] = React.useState("");
 
   const handleBackdropClose = () => {
     setBackdropOpen(false);
@@ -197,7 +202,31 @@ export default function UsDataTable() {
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
-
+  const handleRowClick = (event, name) => {
+    setSymbol(name)
+    handleGetData(name)
+    handleCandleChartOpen()
+  };
+  const handleCandleChartClose = () => {
+    setCandleChartOpen(false);
+  };
+  const handleCandleChartOpen = () => {
+    setCandleChartOpen(true);
+  };
+  const handleGetData=async (symbol)=>{
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow'
+    };
+    
+    let symbolData=await fetch(`https://www.betit.online/us_stock/get_symbol_OHCL?symbol=${symbol}`, requestOptions)
+      .then(response => response.json())
+      .then(result => result)
+      .catch(error => console.log('error', error));
+      setCompany(symbolData["data"][0]["companyName"])
+      setCandleChartData(symbolData)
+    
+  }
   if (error) return <div>failed to load</div>;
   if (!data)
     return (
@@ -224,6 +253,7 @@ export default function UsDataTable() {
     )
   );
   return (
+    <>
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
         <TableContainer sx={{ maxHeight: 600 }}>
@@ -243,6 +273,9 @@ export default function UsDataTable() {
                       hover
                       key={page * rowsPerPage + index + 1}
                       tabIndex={-1}
+                      onClick={(event) =>
+                        handleRowClick(event, row["stock_id"])
+                      }
                     >
                    
                       <TableCell
@@ -304,5 +337,7 @@ export default function UsDataTable() {
         />
       </Paper>
     </Box>
+    <CandleChartDialog open={candleChartOpen} close={handleCandleChartClose} name={company} symbol={symbol} data={candleChartData}/>
+    </>
   );
 }

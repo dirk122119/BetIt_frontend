@@ -10,16 +10,16 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
 import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress"
+import CircularProgress from "@mui/material/CircularProgress";
 import useSWR from "swr";
-
+import CandleChart from "@/components/CandleChart";
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
-    padding: theme.spacing(2)
+    padding: theme.spacing(2),
   },
   "& .MuiDialogActions-root": {
-    padding: theme.spacing(1)
-  }
+    padding: theme.spacing(1),
+  },
 }));
 
 function BootstrapDialogTitle(props) {
@@ -36,7 +36,7 @@ function BootstrapDialogTitle(props) {
             position: "absolute",
             right: 8,
             top: 8,
-            color: (theme) => theme.palette.grey[500]
+            color: (theme) => theme.palette.grey[500],
           }}
         >
           <CloseIcon />
@@ -48,57 +48,76 @@ function BootstrapDialogTitle(props) {
 
 BootstrapDialogTitle.propTypes = {
   children: PropTypes.node,
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
 };
 
-export default function CandleChart(props) {
-  console.log(props.data)
-  const [symbol,setSymbol]=React.useState(props.symbol);
-  const [companyName,setCompanyName]=React.useState("");
+export default function CandleChartDialog(props) {
+  const [symbol, setSymbol] = React.useState(props.symbol);
+  const [companyName, setCompanyName] = React.useState("");
   const [BackdropOpen, setBackdropOpen] = React.useState(true);
   const handleBackdropClose = () => {
     setBackdropOpen(false);
   };
-  
-  const handleClose = () => {
-    props.close()
-  };
 
+  const handleClose = () => {
+    props.close();
+  };
+  if(props.data && props.market=="crypto"){
+    let OHLCData = props.data
+  
   return (
     <div>
       <BootstrapDialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={props.open}
+        fullScreen
       >
         <BootstrapDialogTitle
           id="customized-dialog-title"
           onClose={handleClose}
         >
+        {props.name}
+         ({props.symbol})
         </BootstrapDialogTitle>
         <DialogContent dividers>
-          <Typography gutterBottom>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta
-            ac consectetur ac, vestibulum at eros.
-          </Typography>
-          <Typography gutterBottom>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-            Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
-            auctor.
-          </Typography>
-          <Typography gutterBottom>
-            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
-            cursus magna, vel scelerisque nisl consectetur et. Donec sed odio
-            dui. Donec ullamcorper nulla non metus auctor fringilla.
-          </Typography>
+          <CandleChart data={OHLCData} market={props.market}/>
         </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleClose}>
-            Save changes
-          </Button>
-        </DialogActions>
       </BootstrapDialog>
     </div>
   );
+  }
+  else if (props.data && props.market!="crypto") {
+    let OHLCData = props.data["data"].map((item) => {
+      return {
+        x: new Date(item["date"]),
+        y: [item["open"], item["high"], item["low"], item["close"]],
+      };
+    });
+    console.log("OHLC");
+    console.log(OHLCData);
+  
+  return (
+    <div>
+      <BootstrapDialog
+        onClose={handleClose}
+        aria-labelledby="customized-dialog-title"
+        open={props.open}
+        fullScreen
+      >
+        <BootstrapDialogTitle
+          id="customized-dialog-title"
+          onClose={handleClose}
+        >
+        {props.name}
+         ({props.symbol})
+        </BootstrapDialogTitle>
+        <DialogContent dividers>
+          <CandleChart data={OHLCData}/>
+        </DialogContent>
+      </BootstrapDialog>
+    </div>
+  );
+  }
+
 }

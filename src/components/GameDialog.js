@@ -215,14 +215,14 @@ export default function GameDialog(props) {
                     value={date}
                     views={["year", "month", "day"]}
                     shouldDisableDate={isWeekend}
-                    disablePast
+                    disablePast={true}
                     onChange={(newValue) => {
                       setDate(newValue);
                     }}
                     renderInput={(params) => (
                       <TextField {...params} sx={{ width: "100%" }} />
                     )}
-                    disablePast={false}
+                   
                   />
                 </LocalizationProvider>
               </Grid>

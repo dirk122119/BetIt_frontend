@@ -16,6 +16,7 @@ import { visuallyHidden } from "@mui/utils";
 import PropTypes from "prop-types";
 import useSWR from "swr";
 import * as React from "react";
+import CandleChartDialog from "@/components/CandleChartDialog"
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -190,7 +191,12 @@ function EnhancedTableHead(props) {
     const [BackdropOpen, setBackdropOpen] = React.useState(true);
     const [order, setOrder] = React.useState("desc");
     const [orderBy, setOrderBy] = React.useState("open");
-  
+    const [symbol,setSymbol] = React.useState("")
+    const [company,setCompany] = React.useState("")
+    const [candleChartOpen, setCandleChartOpen] = React.useState(false);
+    const [candleChartData,setCandleChartData] = React.useState("");
+
+
     const handleBackdropClose = () => {
       setBackdropOpen(false);
     };
@@ -211,6 +217,31 @@ function EnhancedTableHead(props) {
       setOrder(isAsc ? "desc" : "asc");
       setOrderBy(property);
     };
+    const handleRowClick = (event, id,name) => {
+      setSymbol(id)
+      handleGetData(id,name)
+      handleCandleChartOpen()
+    };
+    const handleCandleChartClose = () => {
+      setCandleChartOpen(false);
+    };
+    const handleCandleChartOpen = () => {
+      setCandleChartOpen(true);
+    };
+    const handleGetData=async (id,name)=>{
+      var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+      };
+      
+      let symbolData=await fetch(`https://api.coingecko.com/api/v3/coins/${id}/ohlc?vs_currency=usd&days=30`, requestOptions)
+        .then(response => response.json())
+        .then(result => result)
+        .catch(error => console.log('error', error));
+        setCompany(name)
+        setCandleChartData(symbolData)
+      
+    }
   
     if (error) return <div>failed to load</div>;
     if (!data)
@@ -242,6 +273,7 @@ function EnhancedTableHead(props) {
     );
     console.log(rows)
     return (
+      <>
       <Box sx={{ width: "100%" }}>
         <Paper sx={{ width: "100%", overflow: "hidden" }}>
           <TableContainer sx={{ maxHeight: 600 }}>
@@ -261,6 +293,9 @@ function EnhancedTableHead(props) {
                         hover
                         key={page * rowsPerPage + index + 1}
                         tabIndex={-1}
+                        onClick={(event) =>
+                        handleRowClick(event, row["id"],row["name"])
+                      }
                       >
                      
                         <TableCell
@@ -344,6 +379,8 @@ function EnhancedTableHead(props) {
           />
         </Paper>
       </Box>
+      <CandleChartDialog open={candleChartOpen} close={handleCandleChartClose} name={company} symbol={symbol} data={candleChartData} market={"crypto"}/>
+      </>
     );
   }
   
