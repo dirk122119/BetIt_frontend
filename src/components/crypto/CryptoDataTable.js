@@ -271,7 +271,6 @@ function EnhancedTableHead(props) {
         item["image"]
       )
     );
-    console.log(rows)
     return (
       <>
       <Box sx={{ width: "100%" }}>

@@ -94,8 +94,6 @@ export default function CandleChartDialog(props) {
         y: [item["open"], item["high"], item["low"], item["close"]],
       };
     });
-    console.log("OHLC");
-    console.log(OHLCData);
   
   return (
     <div>

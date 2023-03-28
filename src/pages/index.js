@@ -22,8 +22,12 @@ export default function DashboardIndex({ Component, pageProps }) {
 
   return (
     <>
-      <Head>homepage</Head>
+      <Head><title>Homepage</title></Head>
       <h1>Welcome Bet It</h1>
+      <div>You can observe the latest information and trends of US stocks, Taiwan stocks, and cryptocurrencies with this web.</div>
+      <div>Please predict future prices, we will automatically help you record and calculate the outcome </div>
+      <h1 style={{marginTop:"50px"}}>How to use</h1>
+      <img src="/introduction.gif" width="600px"></img>
     </>
   );
 }

@@ -42,7 +42,7 @@ export default function DashboardIndex({ Component, pageProps }) {
     );
   return (
     <>
-      <Head>Dashboard</Head>
+      <Head><title>Dashboard</title></Head>
       <Box sx={{ width: "100%" }}>
         <Grid
           container
